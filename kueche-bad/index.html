@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f5">
+  <title>Bobos: Was gehört wohin?</title>
+  <link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+  <main class="game" aria-labelledby="game-title">
+    <h1 id="game-title" class="sr-only">Was gehört wohin?</h1>
+
+    <section class="hero" aria-label="Bobo und Aufgabe">
+      <button class="bobo-button" id="boboButton" type="button" aria-label="Bobo spricht die Aufgabe noch einmal">
+        <img src="bobo.webp?v=1" alt="Bobo" class="bobo">
+      </button>
+
+      <button class="speech-bubble" id="speechButton" type="button" aria-label="Aufgabe vorlesen">
+        <span class="speaker" aria-hidden="true">🔊</span>
+        <span id="instructionText">Wohin gehört das?</span>
+      </button>
+    </section>
+
+    <section class="stage" aria-label="Spielfeld">
+      <div class="zone zone--kueche" id="zoneKueche" data-room="kueche">
+        <span class="zone-icon" aria-hidden="true">🍳</span>
+        <span class="zone-label">Küche</span>
+      </div>
+
+      <div class="item-area">
+        <button class="item-tile" id="itemTile" type="button" aria-label="Gegenstand, ziehe ihn zur richtigen Seite">
+          <span id="itemEmoji" class="item-emoji" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <div class="zone zone--bad" id="zoneBad" data-room="bad">
+        <span class="zone-icon" aria-hidden="true">🛁</span>
+        <span class="zone-label">Bad</span>
+      </div>
+    </section>
+
+    <section class="feedback" aria-live="polite" aria-atomic="true">
+      <div id="feedbackIcon" class="feedback-icon" aria-hidden="true"></div>
+      <div>
+        <div id="feedbackTitle" class="feedback-title"></div>
+        <div id="feedbackText" class="feedback-text"></div>
+      </div>
+    </section>
+
+    <p class="hint">Ziehe den Gegenstand mit dem Finger oder der Maus zur Küche oder zum Bad.</p>
+    <a href="../index.html" class="home-link">← Zur Spieleübersicht</a>
+  </main>
+
+  <script src="script.js?v=1"></script>
+</body>
+</html>

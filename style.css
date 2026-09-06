@@ -70,6 +70,11 @@ html, body {
   object-fit: cover;
 }
 
+.icon-emoji {
+  font-size: clamp(2.2rem, 9vw, 3.6rem);
+  line-height: 1;
+}
+
 .icon-tile--soon {
   background: rgba(255,255,255,.35);
   font-size: 2rem;

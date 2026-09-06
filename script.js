@@ -108,14 +108,24 @@
   function doBoboSalto() {
     if (!boboImage) return;
 
-    boboImage.classList.remove("salto");
-    // Reflow erzwingen, damit die Animation auch bei mehreren Erfolgen neu startet.
-    void boboImage.offsetWidth;
-    boboImage.classList.add("salto");
+    // Eigener Klon als Overlay: Das Original bleibt an seiner Stelle,
+    // dadurch verändert sich das Layout während der Animation nicht.
+    document.querySelectorAll(".bobo-salto-overlay").forEach(el => el.remove());
 
-    boboImage.addEventListener("animationend", () => {
-      boboImage.classList.remove("salto");
+    const clone = boboImage.cloneNode(true);
+    clone.removeAttribute("id");
+    clone.classList.remove("bobo", "salto");
+    clone.classList.add("bobo-salto-overlay");
+    clone.setAttribute("aria-hidden", "true");
+
+    document.body.appendChild(clone);
+
+    clone.addEventListener("animationend", () => {
+      clone.remove();
     }, { once: true });
+
+    // Fallback, falls animationend nicht ausgelöst wird.
+    setTimeout(() => clone.remove(), 1200);
   }
 
   function weightedNextColor(previous) {

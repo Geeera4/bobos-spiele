@@ -1,10 +1,10 @@
 (() => {
   const COLORS = {
-    blau:    { label: "Blau",    css: "#1769e0" },
-    rot:     { label: "Rot",     css: "#e3342f" },
-    grün:    { label: "Grün",    css: "#179447" },
-    weiß:    { label: "Weiß",    css: "#ffffff" },
-    schwarz: { label: "Schwarz", css: "#191919" }
+    blau:    { label: "Blau",    css: "#1769e0", file: "blau" },
+    rot:     { label: "Rot",     css: "#e3342f", file: "rot" },
+    grün:    { label: "Grün",    css: "#179447", file: "gruen" },
+    weiß:    { label: "Weiß",    css: "#ffffff", file: "weiss" },
+    schwarz: { label: "Schwarz", css: "#191919", file: "schwarz" }
   };
 
   const colorKeys = Object.keys(COLORS);
@@ -23,6 +23,7 @@
   let target = "blau";
   let locked = false;
   let nextTimer = null;
+  let currentAudio = null;
 
   const emptyStats = () => Object.fromEntries(
     colorKeys.map(key => [key, { correct: 0, wrong: 0, shown: 0 }])
@@ -57,7 +58,16 @@
     }
   }
 
-  function speak(text, onEnd) {
+  function stopAudio() {
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+      currentAudio = null;
+    }
+    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+  }
+
+  function browserSpeech(text, onEnd) {
     if (!("speechSynthesis" in window)) {
       if (onEnd) onEnd();
       return;
@@ -67,15 +77,42 @@
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "de-DE";
     utterance.rate = 0.92;
-    utterance.pitch = 1.08;
+    utterance.pitch = 1.12;
     utterance.volume = 1;
 
     const voices = window.speechSynthesis.getVoices();
     const german = voices.find(v => /^de(-|_)/i.test(v.lang));
     if (german) utterance.voice = german;
-
     if (onEnd) utterance.onend = onEnd;
     window.speechSynthesis.speak(utterance);
+  }
+
+  function playClip(filename, fallbackText, onEnd) {
+    stopAudio();
+    const audio = new Audio(`audio/${filename}.mp3`);
+    currentAudio = audio;
+    let finished = false;
+
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      if (currentAudio === audio) currentAudio = null;
+      if (onEnd) onEnd();
+    };
+
+    audio.addEventListener("ended", finish, { once: true });
+    audio.addEventListener("error", () => {
+      if (currentAudio === audio) currentAudio = null;
+      browserSpeech(fallbackText, finish);
+    }, { once: true });
+
+    const promise = audio.play();
+    if (promise && typeof promise.catch === "function") {
+      promise.catch(() => {
+        if (currentAudio === audio) currentAudio = null;
+        browserSpeech(fallbackText, finish);
+      });
+    }
   }
 
   function promptSentence() {
@@ -83,13 +120,12 @@
   }
 
   function speakPrompt() {
-    speak(promptSentence());
+    playClip(`prompt-${COLORS[target].file}`, promptSentence());
   }
 
   function weightedNextColor(previous) {
     const weights = colorKeys.map(key => {
       const s = stats[key];
-      // Farben mit Fehlern oder wenig Übung kommen häufiger dran.
       const errorWeight = 1 + s.wrong * 1.8;
       const lowPracticeWeight = 1 + Math.max(0, 3 - s.shown) * 0.8;
       const successDiscount = 1 / (1 + s.correct * 0.18);
@@ -99,7 +135,6 @@
 
     const total = weights.reduce((a, b) => a + b, 0);
     let r = Math.random() * total;
-
     for (let i = 0; i < colorKeys.length; i++) {
       r -= weights[i];
       if (r <= 0) return colorKeys[i];
@@ -144,8 +179,8 @@
       feedbackText.textContent = `Das ist ${COLORS[target].label}.`;
       renderStats();
 
-      const sentence = `Super! Richtig. Das ist ${COLORS[target].label}.`;
-      speak(sentence, () => {
+      const text = `Super! Richtig. Das ist ${COLORS[target].label}.`;
+      playClip(`richtig-${COLORS[target].file}`, text, () => {
         clearTimeout(nextTimer);
         nextTimer = setTimeout(() => setNewRound({ speakNow: true }), 350);
       });
@@ -160,7 +195,8 @@
       feedbackText.textContent = `Das war ${COLORS[chosen].label}. Gesucht ist ${COLORS[target].label}.`;
       renderStats();
 
-      speak(`Fast. Das war ${COLORS[chosen].label}. Suche ${COLORS[target].label}.`);
+      const text = `Fast. Das war ${COLORS[chosen].label}. Suche ${COLORS[target].label}.`;
+      playClip(`falsch-${COLORS[chosen].file}-${COLORS[target].file}`, text);
     }
   }
 
@@ -193,6 +229,7 @@
   }
 
   function resetProgress() {
+    stopAudio();
     stats = emptyStats();
     saveStats();
     renderStats();
@@ -208,7 +245,6 @@
   boboButton.addEventListener("click", speakPrompt);
   resetButton.addEventListener("click", resetProgress);
 
-  // Stimmen werden in manchen Browsern erst nachgeladen.
   if ("speechSynthesis" in window) {
     window.speechSynthesis.onvoiceschanged = () => {};
   }

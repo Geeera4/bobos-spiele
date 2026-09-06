@@ -1,30 +1,28 @@
-# Bobos Farbenspiel
+# Bobos Farbenspiel – Version mit festen Audiodateien
 
-Ein kleines Lernspiel für GitHub Pages mit HTML, CSS und JavaScript.
+Diese Version spielt vorbereitete MP3-Dateien aus dem Ordner `audio/` ab.
+Dadurch klingt Bobo auf allen Geräten weitgehend gleich. Falls eine MP3 nicht geladen werden kann, fällt das Spiel automatisch auf die Browser-Sprachausgabe zurück.
 
-## So funktioniert es
+## Dateien
 
-- Bobo gibt verbal eine Aufgabe, zum Beispiel: „Tippe auf das blaue Feld.“
-- Farben: Blau, Rot, Grün, Weiß und Schwarz.
-- Richtige Antworten werden verbal gelobt.
-- Bei einer falschen Antwort nennt Bobo die gedrückte Farbe und wiederholt die gesuchte Farbe.
-- Das Spiel merkt sich pro Farbe richtige und falsche Antworten im Browser.
-- Farben, bei denen häufiger Fehler passieren, werden automatisch öfter abgefragt.
-- Unter „Fortschritt anzeigen“ sieht man die Statistik.
+- `index.html`
+- `style.css`
+- `script.js`
+- `bobo.webp`
+- `audio/*.mp3`
 
-## GitHub Pages veröffentlichen
+## Sprachlogik
 
-1. Neues GitHub-Repository erstellen.
-2. Alle Dateien aus diesem Ordner in das Repository hochladen.
-3. In GitHub: Settings → Pages.
-4. Source: „Deploy from a branch“.
-5. Branch: `main`, Ordner: `/(root)`.
-6. Speichern.
+- Aufgabe: „Tippe auf das blaue/rote/grüne/weiße/schwarze Feld.“
+- Richtig: „Super! Richtig. Das ist …“
+- Falsch: „Fast. Das war … Suche …“
 
-Danach ist das Spiel typischerweise unter
-`https://DEIN-NAME.github.io/REPOSITORY-NAME/`
-erreichbar.
+Die Audiodateien sind synthetisch erzeugt und mit etwas höherer Tonlage/ruhigem Tempo auf eine kindlichere Lernspiel-Stimme abgestimmt. Es handelt sich nicht um die Aufnahme eines echten Kindes.
 
-## Hinweis zur Sprachausgabe
+## Lernfunktion
 
-Die Sprachausgabe nutzt die im Browser eingebaute Web-Speech-Funktion. Auf Smartphones muss meist zuerst auf Bobo oder die Sprechblase getippt werden, bevor Audio abgespielt werden darf.
+Das Spiel speichert richtige und falsche Antworten pro Farbe im Browser. Farben, bei denen öfter Fehler passieren, werden häufiger abgefragt.
+
+## GitHub Pages
+
+Einfach alle Dateien und den kompletten Ordner `audio` in dein Repository hochladen. Danach unter `Settings → Pages` den Branch `main` und `/(root)` veröffentlichen.

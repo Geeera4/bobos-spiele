@@ -7,7 +7,10 @@
     schwarz: { label: "Schwarz", adjective: "schwarze",      css: "#191919" },
     pink:    { label: "Pink",    adjective: "pinke",         css: "#f05aa6" },
     violett: { label: "Violett", adjective: "violette",      css: "#7d4bd1" },
-    orange:  { label: "Orange",  adjective: "orangefarbene", css: "#f28c28" }
+    orange:  { label: "Orange",  adjective: "orangefarbene", css: "#f28c28" },
+    gelb:    { label: "Gelb",    adjective: "gelbe",         css: "#f7c331" },
+    braun:   { label: "Braun",   adjective: "braune",        css: "#8b5e34" },
+    grau:    { label: "Grau",    adjective: "graue",         css: "#8a8f98" }
   };
 
   const colorKeys = Object.keys(COLORS);

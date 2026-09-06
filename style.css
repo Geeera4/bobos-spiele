@@ -40,8 +40,9 @@ summary:focus-visible {
   display: grid;
   grid-template-columns: minmax(170px, 300px) minmax(260px, 1fr);
   align-items: center;
-  gap: 26px;
+  gap: 34px;
   margin: 4px 0 24px;
+  min-height: 340px;
 }
 
 .bobo-button {
@@ -50,6 +51,10 @@ summary:focus-visible {
   padding: 0;
   cursor: pointer;
   border-radius: 28px;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .bobo {
@@ -61,61 +66,57 @@ summary:focus-visible {
   transform-origin: 50% 55%;
 }
 
-18%  { transform: translate(-50%, -55%) scale(.9) rotate(90deg); }
-  50%  { transform: translate(-50%, -58%) scale(1.18) rotate(210deg); }
-  82%  { transform: translate(-50%, -53%) scale(1.02) rotate(330deg); }
-  100% { transform: translate(-50%, -50%) scale(.75) rotate(360deg); }
-}
-
+/* Weiße Comic-Sprechblase */
 .speech-bubble {
   position: relative;
-  min-height: 150px;
-  border: 3px solid #3f4348;
-  border-radius: 34px;
+  min-height: 170px;
+  border: 4px solid #2f3337;
+  border-radius: 42px;
   background: #ffffff;
   color: var(--text);
-  padding: 28px 34px;
+  padding: 34px 42px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 18px;
   font-size: clamp(1.55rem, 3vw, 2.4rem);
   font-weight: 800;
   line-height: 1.18;
   text-align: center;
   cursor: pointer;
-  box-shadow: 0 7px 0 rgba(0,0,0,.07);
+  box-shadow: 0 10px 0 rgba(0,0,0,.07);
 }
 
 .speech-bubble::before {
   content: "";
   position: absolute;
-  left: -29px;
-  top: 58%;
+  left: -38px;
+  top: 62%;
   width: 0;
   height: 0;
-  border-top: 20px solid transparent;
-  border-bottom: 20px solid transparent;
-  border-right: 30px solid #3f4348;
+  border-top: 24px solid transparent;
+  border-bottom: 24px solid transparent;
+  border-right: 40px solid #2f3337;
   transform: translateY(-50%);
 }
 
 .speech-bubble::after {
   content: "";
   position: absolute;
-  left: -23px;
-  top: 58%;
+  left: -30px;
+  top: 62%;
   width: 0;
   height: 0;
-  border-top: 16px solid transparent;
-  border-bottom: 16px solid transparent;
-  border-right: 25px solid #ffffff;
+  border-top: 19px solid transparent;
+  border-bottom: 19px solid transparent;
+  border-right: 32px solid #ffffff;
   transform: translateY(-50%);
 }
 
 .speaker {
-  font-size: 1.55em;
+  font-size: 1.25em;
   line-height: 1;
+  flex: 0 0 auto;
 }
 
 .colors {
@@ -140,10 +141,10 @@ summary:focus-visible {
   box-shadow: inset 0 -4px 0 rgba(0,0,0,.08), 0 1px 0 rgba(0,0,0,.08);
 }
 
-.color-button.blue  { background: #1769e0; }
-.color-button.red   { background: #e3342f; }
-.color-button.green { background: #179447; }
-.color-button.white { background: #ffffff; border-color: #a9adb2; }
+.color-button.blue   { background: #1769e0; }
+.color-button.red    { background: #e3342f; }
+.color-button.green  { background: #179447; }
+.color-button.white  { background: #ffffff; border-color: #a9adb2; }
 .color-button.black  { background: #191919; }
 .color-button.pink   { background: #f05aa6; }
 .color-button.violet { background: #7d4bd1; }
@@ -275,80 +276,7 @@ summary {
   border: 0;
 }
 
-@media (max-width: 760px) {
-  .game {
-    padding: 14px 14px 24px;
-  }
-
-  .hero {
-    grid-template-columns: 130px 1fr;
-    gap: 12px;
-  }
-
-  .bobo {
-    max-height: 220px;
-  }
-
-  .speech-bubble {
-    min-height: 118px;
-    border-radius: 26px;
-    padding: 20px 18px;
-    font-size: clamp(1.25rem, 5vw, 1.85rem);
-  }
-.colors {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-
-  .color-button {
-    min-height: 120px;
-  }
-
-}
-
-@media (max-width: 430px) {
-  .hero {
-    grid-template-columns: 1fr;
-  }
-
-  .bobo-button {
-    width: 150px;
-    justify-self: center;
-  }
-
-  .speech-bubble::before {
-    left: 50%;
-    top: -29px;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 30px solid #3f4348;
-    border-top: 0;
-    transform: translateX(-50%);
-  }
-
-  .speech-bubble::after {
-    left: 50%;
-    top: -23px;
-    border-left: 16px solid transparent;
-    border-right: 16px solid transparent;
-    border-bottom: 25px solid #ffffff;
-    border-top: 0;
-    transform: translateX(-50%);
-  }
-.color-button {
-    min-height: 105px;
-  }
-
-  .stats-head,
-  .stat-row {
-    grid-template-columns: 1fr 70px 85px;
-    font-size: .9rem;
-  }
-}
-
-
-/* Erfolgsanimation: eigener Overlay-Klon.
-   Das Original bleibt im Layout, deshalb rutschen die Farbfelder nicht hoch. */
+/* Erfolgs-Salto als Overlay. Das Original bleibt im Layout. */
 .bobo-salto-overlay {
   position: fixed;
   z-index: 9999;
@@ -365,39 +293,108 @@ summary {
 }
 
 @keyframes bobo-salto-smooth {
-  0% {
-    transform: translate(-50%, -50%) translateY(26px) scale(.52) rotate(0deg);
-    opacity: 0;
+  0%   { transform: translate(-50%, -50%) translateY(26px) scale(.52) rotate(0deg); opacity: 0; }
+  8%   { transform: translate(-50%, -50%) translateY(8px) scale(.78) rotate(38deg); opacity: 1; }
+  18%  { transform: translate(-50%, -50%) translateY(-12px) scale(.98) rotate(105deg); }
+  30%  { transform: translate(-50%, -50%) translateY(-30px) scale(1.10) rotate(190deg); }
+  42%  { transform: translate(-50%, -50%) translateY(-42px) scale(1.16) rotate(278deg); }
+  54%  { transform: translate(-50%, -50%) translateY(-46px) scale(1.18) rotate(368deg); }
+  66%  { transform: translate(-50%, -50%) translateY(-38px) scale(1.14) rotate(460deg); }
+  78%  { transform: translate(-50%, -50%) translateY(-22px) scale(1.04) rotate(555deg); }
+  90%  { transform: translate(-50%, -50%) translateY(-6px) scale(.88) rotate(650deg); opacity: 1; }
+  100% { transform: translate(-50%, -50%) translateY(12px) scale(.62) rotate(720deg); opacity: 0; }
+}
+
+@media (max-width: 760px) {
+  .game {
+    padding: 14px 14px 24px;
   }
-  8% {
-    transform: translate(-50%, -50%) translateY(8px) scale(.78) rotate(38deg);
-    opacity: 1;
+
+  .hero {
+    grid-template-columns: 130px 1fr;
+    gap: 16px;
+    min-height: 220px;
   }
-  18% {
-    transform: translate(-50%, -50%) translateY(-12px) scale(.98) rotate(105deg);
+
+  .bobo-button {
+    min-height: 210px;
   }
-  30% {
-    transform: translate(-50%, -50%) translateY(-30px) scale(1.10) rotate(190deg);
+
+  .bobo {
+    max-height: 220px;
   }
-  42% {
-    transform: translate(-50%, -50%) translateY(-42px) scale(1.16) rotate(278deg);
+
+  .speech-bubble {
+    min-height: 125px;
+    border-radius: 30px;
+    padding: 22px 20px;
+    font-size: clamp(1.25rem, 5vw, 1.85rem);
   }
-  54% {
-    transform: translate(-50%, -50%) translateY(-46px) scale(1.18) rotate(368deg);
+
+  .speech-bubble::before {
+    left: -29px;
+    border-top-width: 18px;
+    border-bottom-width: 18px;
+    border-right-width: 30px;
   }
-  66% {
-    transform: translate(-50%, -50%) translateY(-38px) scale(1.14) rotate(460deg);
+
+  .speech-bubble::after {
+    left: -23px;
+    border-top-width: 14px;
+    border-bottom-width: 14px;
+    border-right-width: 24px;
   }
-  78% {
-    transform: translate(-50%, -50%) translateY(-22px) scale(1.04) rotate(555deg);
+
+  .colors {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
-  90% {
-    transform: translate(-50%, -50%) translateY(-6px) scale(.88) rotate(650deg);
-    opacity: 1;
+
+  .color-button {
+    min-height: 120px;
   }
-  100% {
-    transform: translate(-50%, -50%) translateY(12px) scale(.62) rotate(720deg);
-    opacity: 0;
+}
+
+@media (max-width: 430px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .bobo-button {
+    width: 150px;
+    min-height: 160px;
+    justify-self: center;
+  }
+
+  .speech-bubble::before {
+    left: 50%;
+    top: -32px;
+    border-left: 21px solid transparent;
+    border-right: 21px solid transparent;
+    border-bottom: 32px solid #2f3337;
+    border-top: 0;
+    transform: translateX(-50%);
+  }
+
+  .speech-bubble::after {
+    left: 50%;
+    top: -24px;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-bottom: 25px solid #ffffff;
+    border-top: 0;
+    transform: translateX(-50%);
+  }
+
+  .color-button {
+    min-height: 105px;
+  }
+
+  .stats-head,
+  .stat-row {
+    grid-template-columns: 1fr 70px 85px;
+    font-size: .9rem;
   }
 }
 

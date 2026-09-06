@@ -58,6 +58,19 @@ summary:focus-visible {
   max-height: 340px;
   object-fit: contain;
   filter: drop-shadow(0 8px 10px rgba(0,0,0,.08));
+  transform-origin: 50% 55%;
+}
+
+.bobo.salto {
+  animation: bobo-salto 760ms cubic-bezier(.2,.75,.25,1);
+}
+
+@keyframes bobo-salto {
+  0%   { transform: translateY(0) rotate(0deg) scale(1); }
+  22%  { transform: translateY(-18px) rotate(80deg) scale(1.04); }
+  50%  { transform: translateY(-30px) rotate(180deg) scale(1.08); }
+  78%  { transform: translateY(-15px) rotate(290deg) scale(1.04); }
+  100% { transform: translateY(0) rotate(360deg) scale(1); }
 }
 
 .speech-bubble {
@@ -99,7 +112,7 @@ summary:focus-visible {
 
 .colors {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
   margin: 18px 0 22px;
 }
@@ -123,7 +136,10 @@ summary:focus-visible {
 .color-button.red   { background: #e3342f; }
 .color-button.green { background: #179447; }
 .color-button.white { background: #ffffff; border-color: #a9adb2; }
-.color-button.black { background: #191919; }
+.color-button.black  { background: #191919; }
+.color-button.pink   { background: #f05aa6; }
+.color-button.violet { background: #7d4bd1; }
+.color-button.orange { background: #f28c28; }
 
 .color-button.correct {
   outline: 7px solid rgba(31,138,76,.24);
@@ -288,9 +304,6 @@ summary {
     min-height: 120px;
   }
 
-  .colors .color-button:last-child {
-    grid-column: 1 / -1;
-  }
 }
 
 @media (max-width: 430px) {
@@ -322,5 +335,9 @@ summary {
 @media (prefers-reduced-motion: reduce) {
   .color-button {
     transition: none;
+  }
+
+  .bobo.salto {
+    animation: none;
   }
 }

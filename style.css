@@ -76,11 +76,6 @@ html, body {
   box-shadow: none;
 }
 
-.icon-emoji {
-  font-size: 2.4rem;
-  line-height: 1;
-}
-
 .app-icon--soon {
   opacity: .8;
   cursor: default;

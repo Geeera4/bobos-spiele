@@ -1,30 +1,44 @@
-# Bobos Farbenspiel
+# Bobos Spiele
 
-Ein kleines Lernspiel für GitHub Pages mit HTML, CSS und JavaScript.
+Eine kleine Sammlung von Lernspielen für GitHub Pages mit HTML, CSS und JavaScript.
 
-## Farben
+## Übersicht
 
-Blau, Rot, Grün, Weiß, Schwarz, Pink, Violett, Orange, Gelb, Braun und Grau.
+Die Startseite (`index.html`) zeigt eine Spieleübersicht im Stil eines iPad-Homescreens.
+Jedes Spiel liegt in seinem eigenen Unterordner. Aktuell verfügbar:
 
-## So funktioniert es
+- **Farbenspiel** (`farbenspiel/`) – weitere Spiele folgen.
+
+## Farbenspiel
+
+### Farben
+
+Blau, Rot, Grün, Weiß, Schwarz, Pink, Violett, Orange, Gelb, Braun, Grau und Türkis.
+
+### So funktioniert es
 
 - Bobo gibt die Aufgabe über die Browser-Sprachausgabe aus, z. B. „Tippe auf das blaue Feld.“
 - Auf Bobo oder die Sprechblase tippen, um die Aufgabe erneut zu hören.
 - Bei einer richtigen Antwort gratuliert Bobo verbal und macht einen animierten Salto.
 - Bei einer falschen Antwort nennt Bobo die gedrückte Farbe und wiederholt die gesuchte Farbe.
+- Nach jeder richtigen Antwort wechselt nicht nur die gesuchte Farbe, sondern auch die Anordnung der Farbfelder.
 - Das Spiel merkt sich richtige und falsche Antworten im Browser.
 - Farben, bei denen häufiger Fehler passieren, werden automatisch etwas öfter abgefragt.
 - Unter „Fortschritt anzeigen“ sieht man die Statistik pro Farbe.
 
 ## GitHub Pages
 
-Alle Dateien direkt in das Repository hochladen:
+Das gesamte Repository (inklusive Unterordner) direkt hochladen, die Struktur sieht so aus:
 
-- index.html
+- index.html (Spieleübersicht)
 - style.css
-- script.js
-- bobo.webp
 - README.md
+- farbenspiel/
+  - index.html
+  - style.css
+  - script.js
+  - bobo.webp
+  - bobo-lachen.mp3
 
 Danach unter Settings → Pages:
 - Source: Deploy from a branch

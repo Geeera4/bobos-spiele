@@ -3,63 +3,37 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f7f5">
-  <title>Bobos Farbenspiel</title>
-  <link rel="stylesheet" href="style.css?v=7">
+  <meta name="theme-color" content="#b79aff">
+  <title>Bobos Spiele</title>
+  <link rel="stylesheet" href="style.css?v=1">
 </head>
 <body>
-  <main class="game" aria-labelledby="game-title">
-    <h1 id="game-title" class="sr-only">Bobos Farbenspiel</h1>
+  <main class="home" aria-labelledby="home-title">
+    <h1 id="home-title" class="home-title">Bobos Spiele</h1>
 
-    <section class="hero" aria-label="Bobo und Aufgabe">
-      <button class="bobo-button" id="boboButton" type="button" aria-label="Bobo spricht die Aufgabe noch einmal">
-        <img src="bobo.webp?v=7" alt="Bobo" class="bobo">
-      </button>
+    <div class="app-grid">
+      <a class="app-icon" href="farbenspiel/index.html">
+        <span class="icon-tile">
+          <img src="farbenspiel/bobo.webp?v=8" alt="" class="icon-image">
+        </span>
+        <span class="icon-label">Farbenspiel</span>
+      </a>
 
-      <button class="speech-bubble" id="speechButton" type="button" aria-label="Aufgabe vorlesen">
-        <span class="speaker" aria-hidden="true">🔊</span>
-        <span id="instructionText">Tippe auf das blaue Feld.</span>
-      </button>
-    </section>
-
-    <section class="colors" aria-label="Farbfelder">
-      <button class="color-button blue"  data-color="blau"    type="button" aria-label="Blau"></button>
-      <button class="color-button red"   data-color="rot"     type="button" aria-label="Rot"></button>
-      <button class="color-button green" data-color="grün"    type="button" aria-label="Grün"></button>
-      <button class="color-button white" data-color="weiß"    type="button" aria-label="Weiß"></button>
-      <button class="color-button black"  data-color="schwarz" type="button" aria-label="Schwarz"></button>
-      <button class="color-button pink"   data-color="pink"    type="button" aria-label="Pink"></button>
-      <button class="color-button violet" data-color="violett" type="button" aria-label="Violett"></button>
-      <button class="color-button orange" data-color="orange"  type="button" aria-label="Orange"></button>
-      <button class="color-button yellow" data-color="gelb"    type="button" aria-label="Gelb"></button>
-      <button class="color-button brown"  data-color="braun"   type="button" aria-label="Braun"></button>
-      <button class="color-button gray"   data-color="grau"    type="button" aria-label="Grau"></button>
-    </section>
-
-    <section class="feedback" aria-live="polite" aria-atomic="true">
-      <div id="feedbackIcon" class="feedback-icon" aria-hidden="true"></div>
-      <div>
-        <div id="feedbackTitle" class="feedback-title"></div>
-        <div id="feedbackText" class="feedback-text"></div>
+      <div class="app-icon app-icon--soon" aria-hidden="true">
+        <span class="icon-tile icon-tile--soon">✨</span>
+        <span class="icon-label">Bald da</span>
       </div>
-    </section>
 
-    <section class="parent-panel" aria-label="Fortschritt">
-      <details>
-        <summary>Fortschritt anzeigen</summary>
-        <div class="stats-head">
-          <span>Farbe</span><span>Richtig</span><span>Noch üben</span>
-        </div>
-        <div id="stats" class="stats"></div>
-        <div class="parent-actions">
-          <button id="resetButton" class="secondary-button" type="button">Fortschritt zurücksetzen</button>
-        </div>
-      </details>
-    </section>
+      <div class="app-icon app-icon--soon" aria-hidden="true">
+        <span class="icon-tile icon-tile--soon">✨</span>
+        <span class="icon-label">Bald da</span>
+      </div>
 
-    <p class="hint">Auf Bobo oder die Sprechblase tippen, um die Aufgabe noch einmal zu hören.</p>
+      <div class="app-icon app-icon--soon" aria-hidden="true">
+        <span class="icon-tile icon-tile--soon">✨</span>
+        <span class="icon-label">Bald da</span>
+      </div>
+    </div>
   </main>
-
-  <script src="script.js?v=7"></script>
 </body>
 </html>

@@ -10,7 +10,8 @@
     orange:  { label: "Orange",  adjective: "orangefarbene", css: "#f28c28" },
     gelb:    { label: "Gelb",    adjective: "gelbe",         css: "#f7c331" },
     braun:   { label: "Braun",   adjective: "braune",        css: "#8b5e34" },
-    grau:    { label: "Grau",    adjective: "graue",         css: "#8a8f98" }
+    grau:    { label: "Grau",    adjective: "graue",         css: "#8a8f98" },
+    türkis:  { label: "Türkis",  adjective: "türkise",       css: "#17a2a2" }
   };
 
   const colorKeys = Object.keys(COLORS);
@@ -112,7 +113,7 @@
     if (!boboImage) return;
 
     // Bobo-Lachen gleichzeitig mit dem Salto abspielen.
-    const laugh = new Audio("bobo-lachen.mp3?v=7");
+    const laugh = new Audio("bobo-lachen.mp3?v=8");
     laugh.volume = 1;
     laugh.play().catch(() => {
       // Falls der Browser Audio blockiert, läuft die Animation trotzdem.
@@ -165,12 +166,24 @@
     return colorKeys[0];
   }
 
+  function shuffleColorButtons() {
+    const order = colorButtons.map((_, i) => i);
+    for (let i = order.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [order[i], order[j]] = [order[j], order[i]];
+    }
+    colorButtons.forEach((btn, i) => {
+      btn.style.order = order[i];
+    });
+  }
+
   function setNewRound({ speakNow = false } = {}) {
     const previous = target;
     target = weightedNextColor(previous);
     stats[target].shown += 1;
     saveStats();
 
+    shuffleColorButtons();
     instructionText.textContent = promptSentence();
     feedback.className = "feedback";
     feedbackIcon.textContent = "";

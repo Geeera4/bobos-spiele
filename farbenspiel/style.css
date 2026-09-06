@@ -209,18 +209,109 @@ summary:focus-visible {
   border-top: 1px solid var(--line);
   margin-top: 8px;
   padding-top: 14px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-details {
-  background: transparent;
-}
-
-summary {
-  width: fit-content;
-  cursor: pointer;
-  color: var(--muted);
+.panel-link {
+  border: 1px solid #c9ccd1;
+  border-radius: 12px;
+  background: #fff;
+  color: #4d535b;
   font-weight: 700;
-  padding: 8px 0;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.panel-link:hover,
+.panel-link:focus-visible {
+  background: #f1f2f3;
+}
+
+.overlay-dialog {
+  border: none;
+  border-radius: 20px;
+  padding: 0;
+  width: min(560px, 92vw);
+  max-height: 86vh;
+  color: var(--text);
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+
+.overlay-dialog::backdrop {
+  background: rgba(15, 17, 20, .45);
+}
+
+.overlay-content {
+  margin: 0;
+  padding: 22px clamp(16px, 4vw, 28px) 26px;
+  max-height: 86vh;
+  overflow-y: auto;
+}
+
+.overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.overlay-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.overlay-close {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.3rem;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.overlay-close:hover,
+.overlay-close:focus-visible {
+  background: #eceeef;
+}
+
+.admin-hint {
+  color: var(--muted);
+  margin: 0 0 14px;
+  font-size: .92rem;
+}
+
+.admin-color-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.admin-color-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.admin-color-item input {
+  width: 18px;
+  height: 18px;
+}
+
+.admin-error {
+  color: var(--bad);
+  font-weight: 700;
+  margin: 0 0 10px;
 }
 
 .stats-head,

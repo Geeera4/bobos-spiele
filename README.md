@@ -4,7 +4,7 @@ Ein kleines Lernspiel für GitHub Pages mit HTML, CSS und JavaScript.
 
 ## Farben
 
-Blau, Rot, Grün, Weiß, Schwarz, Pink, Violett und Orange.
+Blau, Rot, Grün, Weiß, Schwarz, Pink, Violett, Orange, Gelb, Braun und Grau.
 
 ## So funktioniert es
 

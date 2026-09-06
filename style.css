@@ -62,15 +62,24 @@ summary:focus-visible {
 }
 
 .bobo.salto {
-  animation: bobo-salto 760ms cubic-bezier(.2,.75,.25,1);
+  position: fixed;
+  z-index: 9999;
+  left: 50%;
+  top: 50%;
+  width: min(78vw, 720px);
+  max-width: none;
+  max-height: 82vh;
+  pointer-events: none;
+  transform-origin: 50% 55%;
+  animation: bobo-salto-overlay 480ms cubic-bezier(.22,.75,.25,1);
 }
 
-@keyframes bobo-salto {
-  0%   { transform: translateY(0) rotate(0deg) scale(1); }
-  22%  { transform: translateY(-18px) rotate(80deg) scale(1.04); }
-  50%  { transform: translateY(-30px) rotate(180deg) scale(1.08); }
-  78%  { transform: translateY(-15px) rotate(290deg) scale(1.04); }
-  100% { transform: translateY(0) rotate(360deg) scale(1); }
+@keyframes bobo-salto-overlay {
+  0%   { transform: translate(-50%, -50%) scale(.55) rotate(0deg); }
+  18%  { transform: translate(-50%, -55%) scale(.9) rotate(90deg); }
+  50%  { transform: translate(-50%, -58%) scale(1.18) rotate(210deg); }
+  82%  { transform: translate(-50%, -53%) scale(1.02) rotate(330deg); }
+  100% { transform: translate(-50%, -50%) scale(.75) rotate(360deg); }
 }
 
 .speech-bubble {

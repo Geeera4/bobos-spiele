@@ -26,8 +26,17 @@
   const boboButton = document.getElementById("boboButton");
   const boboImage = document.querySelector(".bobo");
   const resetButton = document.getElementById("resetButton");
+  const statsLinkButton = document.getElementById("statsLinkButton");
+  const adminLinkButton = document.getElementById("adminLinkButton");
+  const statsDialog = document.getElementById("statsDialog");
+  const adminDialog = document.getElementById("adminDialog");
+  const adminForm = document.getElementById("adminForm");
+  const adminColorList = document.getElementById("adminColorList");
+  const adminError = document.getElementById("adminError");
+  const adminCloseButton = document.getElementById("adminCloseButton");
 
   const STORAGE_KEY = "bobos-farbenspiel-progress-v2";
+  const ADMIN_STORAGE_KEY = "bobos-farbenspiel-admin-v1";
   let target = "blau";
   let locked = false;
   let nextTimer = null;
@@ -37,6 +46,61 @@
   );
 
   let stats = loadStats();
+
+  function loadActiveColors() {
+    try {
+      const raw = localStorage.getItem(ADMIN_STORAGE_KEY);
+      const parsed = raw ? JSON.parse(raw) : null;
+      if (!Array.isArray(parsed)) return [...colorKeys];
+
+      const valid = parsed.filter(key => colorKeys.includes(key));
+      return valid.length >= 2 ? valid : [...colorKeys];
+    } catch {
+      return [...colorKeys];
+    }
+  }
+
+  function saveActiveColors(keys) {
+    try {
+      localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(keys));
+    } catch {
+      // Die Auswahl wird dann nicht dauerhaft gespeichert.
+    }
+  }
+
+  let activeColors = loadActiveColors();
+
+  function applyActiveColors() {
+    const active = new Set(activeColors);
+    colorButtons.forEach(btn => {
+      btn.hidden = !active.has(btn.dataset.color);
+    });
+  }
+
+  function renderAdminColorList() {
+    adminColorList.innerHTML = "";
+    const active = new Set(activeColors);
+
+    for (const key of colorKeys) {
+      const item = document.createElement("label");
+      item.className = "admin-color-item";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.value = key;
+      checkbox.checked = active.has(key);
+
+      const swatch = document.createElement("span");
+      swatch.className = "swatch";
+      swatch.style.background = COLORS[key].css;
+
+      const label = document.createElement("span");
+      label.textContent = COLORS[key].label;
+
+      item.append(checkbox, swatch, label);
+      adminColorList.append(item);
+    }
+  }
 
   function loadStats() {
     try {
@@ -140,7 +204,8 @@
   }
 
   function weightedNextColor(previous) {
-    const weights = colorKeys.map(key => {
+    const keys = activeColors;
+    const weights = keys.map(key => {
       const s = stats[key];
 
       // Farben mit Fehlern oder wenig Übung kommen häufiger dran.
@@ -158,12 +223,12 @@
     const total = weights.reduce((a, b) => a + b, 0);
     let r = Math.random() * total;
 
-    for (let i = 0; i < colorKeys.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
       r -= weights[i];
-      if (r <= 0) return colorKeys[i];
+      if (r <= 0) return keys[i];
     }
 
-    return colorKeys[0];
+    return keys[0];
   }
 
   function shuffleColorButtons() {
@@ -292,9 +357,41 @@
   boboButton.addEventListener("click", speakPrompt);
   resetButton.addEventListener("click", resetProgress);
 
+  statsLinkButton.addEventListener("click", () => {
+    renderStats();
+    statsDialog.showModal();
+  });
+
+  adminLinkButton.addEventListener("click", () => {
+    adminError.hidden = true;
+    renderAdminColorList();
+    adminDialog.showModal();
+  });
+
+  adminCloseButton.addEventListener("click", () => adminDialog.close());
+
+  adminForm.addEventListener("submit", event => {
+    event.preventDefault();
+
+    const checked = [...adminColorList.querySelectorAll("input:checked")]
+      .map(checkbox => checkbox.value);
+
+    if (checked.length < 2) {
+      adminError.hidden = false;
+      return;
+    }
+
+    activeColors = checked;
+    saveActiveColors(activeColors);
+    applyActiveColors();
+    adminDialog.close();
+    setNewRound({ speakNow: false });
+  });
+
   if ("speechSynthesis" in window) {
     window.speechSynthesis.onvoiceschanged = () => {};
   }
 
+  applyActiveColors();
   setNewRound();
 })();

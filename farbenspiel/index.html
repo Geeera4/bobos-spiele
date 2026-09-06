@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f7f5">
   <title>Bobos Farbenspiel</title>
-  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
   <main class="game" aria-labelledby="game-title">
@@ -45,9 +45,20 @@
       </div>
     </section>
 
-    <section class="parent-panel" aria-label="Fortschritt">
-      <details>
-        <summary>Fortschritt anzeigen</summary>
+    <section class="parent-panel" aria-label="Fortschritt und Einstellungen">
+      <button id="statsLinkButton" class="panel-link" type="button">📊 Statistik</button>
+      <button id="adminLinkButton" class="panel-link" type="button">⚙️ Admin</button>
+    </section>
+
+    <p class="hint">Auf Bobo oder die Sprechblase tippen, um die Aufgabe noch einmal zu hören.</p>
+    <a href="../index.html" class="home-link">← Zur Spieleübersicht</a>
+
+    <dialog id="statsDialog" class="overlay-dialog" aria-labelledby="statsDialogTitle">
+      <form method="dialog" class="overlay-content">
+        <div class="overlay-header">
+          <h2 id="statsDialogTitle">Fortschritt</h2>
+          <button type="submit" class="overlay-close" aria-label="Schließen">✕</button>
+        </div>
         <div class="stats-head">
           <span>Farbe</span><span>Richtig</span><span>Noch üben</span>
         </div>
@@ -55,13 +66,25 @@
         <div class="parent-actions">
           <button id="resetButton" class="secondary-button" type="button">Fortschritt zurücksetzen</button>
         </div>
-      </details>
-    </section>
+      </form>
+    </dialog>
 
-    <p class="hint">Auf Bobo oder die Sprechblase tippen, um die Aufgabe noch einmal zu hören.</p>
-    <a href="../index.html" class="home-link">← Zur Spieleübersicht</a>
+    <dialog id="adminDialog" class="overlay-dialog" aria-labelledby="adminDialogTitle">
+      <form id="adminForm" class="overlay-content">
+        <div class="overlay-header">
+          <h2 id="adminDialogTitle">Admin: Farben auswählen</h2>
+          <button type="button" id="adminCloseButton" class="overlay-close" aria-label="Schließen">✕</button>
+        </div>
+        <p class="admin-hint">Wähle aus, welche und wie viele Farben im Spiel vorkommen sollen (mindestens 2).</p>
+        <div id="adminColorList" class="admin-color-list"></div>
+        <p id="adminError" class="admin-error" role="alert" hidden>Bitte mindestens 2 Farben auswählen.</p>
+        <div class="parent-actions">
+          <button type="submit" id="adminSaveButton" class="secondary-button">Speichern</button>
+        </div>
+      </form>
+    </dialog>
   </main>
 
-  <script src="script.js?v=8"></script>
+  <script src="script.js?v=9"></script>
 </body>
 </html>

@@ -108,6 +108,13 @@
   function doBoboSalto() {
     if (!boboImage) return;
 
+    // Bobo-Lachen gleichzeitig mit dem Salto abspielen.
+    const laugh = new Audio("bobo-lachen.mp3?v=7");
+    laugh.volume = 1;
+    laugh.play().catch(() => {
+      // Falls der Browser Audio blockiert, läuft die Animation trotzdem.
+    });
+
     // Eigener Klon als Overlay: Das Original bleibt an seiner Stelle,
     // dadurch verändert sich das Layout während der Animation nicht.
     document.querySelectorAll(".bobo-salto-overlay").forEach(el => el.remove());

@@ -12,6 +12,8 @@
     "bobos/bobo_pose_10.png"
   ];
 
+  const PASTEL_COLORS = ["#d6ecff", "#ffe3d6", "#e2f5d9", "#f3ddf7", "#fff3c4", "#d9f2ee"];
+
   const QUESTIONS = {
     mehr: { label: "mehr", prompt: "Wo hat es mehr Bobos?", pick: (a, b) => (a > b ? "left" : "right") },
     weniger: { label: "weniger", prompt: "Wo hat es weniger Bobos?", pick: (a, b) => (a < b ? "left" : "right") }
@@ -23,6 +25,8 @@
   const rightSide = document.getElementById("rightSide");
   const leftGroup = document.getElementById("leftGroup");
   const rightGroup = document.getElementById("rightGroup");
+  const leftCountEl = document.getElementById("leftCount");
+  const rightCountEl = document.getElementById("rightCount");
   const feedback = document.querySelector(".feedback");
   const feedbackIcon = document.getElementById("feedbackIcon");
   const feedbackTitle = document.getElementById("feedbackTitle");
@@ -116,6 +120,13 @@
     return BOBO_POSES[randomInt(0, BOBO_POSES.length - 1)];
   }
 
+  function pickTwoColors() {
+    const first = randomInt(0, PASTEL_COLORS.length - 1);
+    let second = randomInt(0, PASTEL_COLORS.length - 1);
+    while (second === first) second = randomInt(0, PASTEL_COLORS.length - 1);
+    return [PASTEL_COLORS[first], PASTEL_COLORS[second]];
+  }
+
   function generateCounts() {
     const { maxCount, maxDifference } = settings;
 
@@ -189,6 +200,12 @@
 
     renderGroup(leftGroup, leftCount);
     renderGroup(rightGroup, rightCount);
+    leftCountEl.textContent = String(leftCount);
+    rightCountEl.textContent = String(rightCount);
+
+    const [leftColor, rightColor] = pickTwoColors();
+    leftSide.style.setProperty("--side-bg", leftColor);
+    rightSide.style.setProperty("--side-bg", rightColor);
 
     instructionText.textContent = QUESTIONS[questionKey].prompt;
     feedback.className = "feedback";

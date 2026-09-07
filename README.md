@@ -97,7 +97,7 @@ Das gesamte Repository (inklusive Unterordner) direkt hochladen, die Struktur si
   - script.js
   - bobo-unterhose.jpg … bobo-oberteil-hose-schuhe-helm-handschuhe-oxygenflasche.jpg (Anzieh-Schritte)
   - oberteil.png, hose.png, helm.png, stiefel.png, handschuhe.png, oxygen-tank.png (Kleidungsstück-Icons)
-  - loeschender-bobo.jpg, haus-bobo.png (Löscheinsatz)
+  - loeschender-bobo.jpg, ../zu-löschendes-haus.png (Löscheinsatz)
   - feuer-transparent-1.png, feuer-transparent-2.png, wasser-transparent-1.png (Effekte)
 
 Danach unter Settings → Pages:

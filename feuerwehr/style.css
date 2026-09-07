@@ -3,7 +3,7 @@
 }
 
 :root {
-  --bg: #fff4ec;
+  --bg: #ffffff;
   --text: #2a2320;
   --muted: #7a6f68;
   --line: #e7d9d0;
@@ -18,7 +18,7 @@ html, body {
   margin: 0;
   height: 100%;
   overflow: hidden;
-  background: linear-gradient(160deg, #ffe4c7 0%, #ffd3c2 45%, #ffc4c4 100%);
+  background: var(--bg);
   color: var(--text);
   font-family: ui-rounded, "SF Pro Rounded", "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -84,6 +84,10 @@ button:focus-visible {
   flex-direction: column;
 }
 
+.stage[hidden] {
+  display: none;
+}
+
 /* --- Phase 1: Anziehen --- */
 
 .dress-layout {
@@ -113,7 +117,7 @@ button:focus-visible {
 }
 
 .bobo-image {
-  max-width: min(260px, 65vw);
+  max-width: min(520px, 85vw);
   max-height: 100%;
   object-fit: contain;
   filter: drop-shadow(0 10px 16px rgba(0,0,0,.15));

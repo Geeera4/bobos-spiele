@@ -4,7 +4,10 @@
 
   const dressStage = document.getElementById("dressStage");
   const boboImage = document.getElementById("boboImage");
+  const boboDropzone = document.getElementById("boboDropzone");
   const dressOptions = document.getElementById("dressOptions");
+
+  const alarmStage = document.getElementById("alarmStage");
 
   const fireStage = document.getElementById("fireStage");
   const fireScene = document.querySelector(".fire-scene");
@@ -128,6 +131,67 @@
     return IMAGE_MAP[key];
   }
 
+  function rectsOverlap(a, b) {
+    return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+  }
+
+  function attachDragHandlers(button, key) {
+    let pointerId = null;
+    let startX = 0;
+    let startY = 0;
+    let dragging = false;
+
+    function onMove(event) {
+      if (pointerId === null || event.pointerId !== pointerId) return;
+      const dx = event.clientX - startX;
+      const dy = event.clientY - startY;
+
+      if (!dragging && Math.hypot(dx, dy) > 6) {
+        dragging = true;
+        button.classList.add("dragging");
+      }
+
+      if (dragging) {
+        button.style.transform = `translate(${dx}px, ${dy}px)`;
+        const overlap = rectsOverlap(button.getBoundingClientRect(), boboDropzone.getBoundingClientRect());
+        boboDropzone.classList.toggle("drop-hover", overlap);
+      }
+    }
+
+    function onUp(event) {
+      if (pointerId === null || event.pointerId !== pointerId) return;
+      button.releasePointerCapture(pointerId);
+      button.removeEventListener("pointermove", onMove);
+      button.removeEventListener("pointerup", onUp);
+      button.removeEventListener("pointercancel", onUp);
+      pointerId = null;
+      boboDropzone.classList.remove("drop-hover");
+
+      const wasDragging = dragging;
+      dragging = false;
+      button.classList.remove("dragging");
+
+      if (wasDragging) {
+        const overlap = rectsOverlap(button.getBoundingClientRect(), boboDropzone.getBoundingClientRect());
+        button.style.transform = "";
+        if (overlap) handleDressPick(key, button);
+      } else {
+        handleDressPick(key, button);
+      }
+    }
+
+    button.addEventListener("pointerdown", (event) => {
+      if (event.button !== 0 && event.pointerType === "mouse") return;
+      pointerId = event.pointerId;
+      startX = event.clientX;
+      startY = event.clientY;
+      button.setPointerCapture(pointerId);
+      button.addEventListener("pointermove", onMove);
+      button.addEventListener("pointerup", onUp);
+      button.addEventListener("pointercancel", onUp);
+    });
+  }
+
   function renderDressStep() {
     const step = DRESS_STEPS[stepIndex];
     pendingKeys = step.items.map(item => item.key);
@@ -150,7 +214,7 @@
       label.textContent = item.label;
 
       button.append(img, label);
-      button.addEventListener("click", () => handleDressPick(item.key, button));
+      attachDragHandlers(button, item.key);
       dressOptions.append(button);
     }
 
@@ -183,11 +247,22 @@
   function finishDressing() {
     dressOptions.innerHTML = "";
     boboImage.classList.add("celebrate");
-    setInstruction("Bravo! Bobo ist bereit für den Einsatz!");
+    setInstruction("Super! Er ist bereit für den Einsatz!");
 
     setTimeout(() => {
       boboImage.classList.remove("celebrate");
       dressStage.hidden = true;
+      startAlarmPhase();
+    }, 2200);
+  }
+
+  // --- Übergang: Alarm ---
+
+  function startAlarmPhase() {
+    alarmStage.hidden = false;
+
+    setTimeout(() => {
+      alarmStage.hidden = true;
       fireStage.hidden = false;
       startFirePhase();
     }, 2200);
@@ -245,7 +320,7 @@
       el.classList.toggle("is-burning", el.dataset.id === chosen.id);
     });
 
-    setInstruction("Wo brennt es? Klick auf das brennende Fenster!");
+    setInstruction("Wo brennt es? Klick auf das brennende Fenster!", { speakNow: false });
   }
 
   function handleWindowClick(win) {
@@ -256,7 +331,6 @@
     if (win.id !== burningWindowId) {
       button.classList.add("shake");
       setTimeout(() => button.classList.remove("shake"), 400);
-      speak("Dort brennt es nicht. Schau genau hin!");
       return;
     }
 
@@ -270,16 +344,14 @@
     updateFireProgress();
 
     const finished = extinguishedCount >= targetCount;
-    speak(finished ? "Super gelöscht! Bobo hat es geschafft!" : "Toll gelöscht!", () => {
-      setTimeout(() => {
-        fireLocked = false;
-        if (finished) {
-          finishFirePhase();
-        } else {
-          igniteWindow(win.id);
-        }
-      }, 400);
-    });
+    setTimeout(() => {
+      fireLocked = false;
+      if (finished) {
+        finishFirePhase();
+      } else {
+        igniteWindow(win.id);
+      }
+    }, 700);
   }
 
   function spawnWaterSpray(targetButton) {
@@ -327,6 +399,7 @@
 
     doneStage.hidden = true;
     fireStage.hidden = true;
+    alarmStage.hidden = true;
     dressStage.hidden = false;
 
     renderDressStep();

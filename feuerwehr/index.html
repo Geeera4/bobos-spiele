@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#ff6b4a">
   <title>Bobo Feuerwehr</title>
-  <link rel="stylesheet" href="style.css?v=1">
+  <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
   <main class="game" aria-labelledby="game-title">
@@ -19,11 +19,22 @@
     </section>
 
     <!-- Phase 1: Anziehen -->
-    <section class="stage" id="dressStage" aria-label="Bobo anziehen">
-      <div class="bobo-wrap">
-        <img id="boboImage" class="bobo-image" src="bobo-unterhose.jpg" alt="Bobo">
+    <section class="stage stage--dress" id="dressStage" aria-label="Bobo anziehen">
+      <div class="dress-layout">
+        <div class="bobo-wrap" id="boboDropzone">
+          <img id="boboImage" class="bobo-image" src="bobo-unterhose.jpg" alt="Bobo">
+        </div>
+        <div class="options" id="dressOptions" role="group" aria-label="Kleidungsstücke"></div>
       </div>
-      <div class="options" id="dressOptions" role="group" aria-label="Kleidungsstücke"></div>
+    </section>
+
+    <!-- Übergang: Alarm -->
+    <section class="stage stage--alarm" id="alarmStage" hidden aria-label="Alarm">
+      <div class="alarm-lights" aria-hidden="true">
+        <span class="alarm-light alarm-light--red"></span>
+        <span class="alarm-light alarm-light--blue"></span>
+      </div>
+      <p class="alarm-text">🚒 Alarm! Einsatz! 🚒</p>
     </section>
 
     <!-- Phase 2: Löscheinsatz -->
@@ -54,6 +65,6 @@
     <a href="../index.html" class="home-link">← Zur Spieleübersicht</a>
   </main>
 
-  <script src="script.js?v=1"></script>
+  <script src="script.js?v=2"></script>
 </body>
 </html>

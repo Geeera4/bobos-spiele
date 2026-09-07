@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f5">
+  <title>Bobos Mehr oder weniger?</title>
+  <link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+  <main class="game" aria-labelledby="game-title">
+    <h1 id="game-title" class="sr-only">Bobos Mehr oder weniger?</h1>
+
+    <section class="hero" aria-label="Aufgabe">
+      <button class="speech-bubble" id="speechButton" type="button" aria-label="Aufgabe vorlesen">
+        <span class="speaker" aria-hidden="true">🔊</span>
+        <span id="instructionText">Wo hat es mehr Bobos?</span>
+      </button>
+    </section>
+
+    <section class="sides" aria-label="Bobo-Gruppen">
+      <button class="side-button" id="leftSide" data-side="left" type="button" aria-label="Linke Gruppe">
+        <div class="bobo-group" id="leftGroup"></div>
+      </button>
+      <button class="side-button" id="rightSide" data-side="right" type="button" aria-label="Rechte Gruppe">
+        <div class="bobo-group" id="rightGroup"></div>
+      </button>
+    </section>
+
+    <section class="feedback" aria-live="polite" aria-atomic="true">
+      <div id="feedbackIcon" class="feedback-icon" aria-hidden="true"></div>
+      <div>
+        <div id="feedbackTitle" class="feedback-title"></div>
+        <div id="feedbackText" class="feedback-text"></div>
+      </div>
+    </section>
+
+    <section class="parent-panel" aria-label="Fortschritt und Einstellungen">
+      <button id="statsLinkButton" class="panel-link" type="button">📊 Statistik</button>
+      <button id="adminLinkButton" class="panel-link" type="button">⚙️ Admin</button>
+    </section>
+
+    <p class="hint">Auf die Sprechblase tippen, um die Aufgabe noch einmal zu hören.</p>
+    <a href="../index.html" class="home-link">← Zur Spieleübersicht</a>
+
+    <dialog id="statsDialog" class="overlay-dialog" aria-labelledby="statsDialogTitle">
+      <form method="dialog" class="overlay-content">
+        <div class="overlay-header">
+          <h2 id="statsDialogTitle">Fortschritt</h2>
+          <button type="submit" class="overlay-close" aria-label="Schließen">✕</button>
+        </div>
+        <div class="stats-head">
+          <span>Frage</span><span>Richtig</span><span>Falsch</span>
+        </div>
+        <div id="stats" class="stats"></div>
+        <div class="parent-actions">
+          <button id="resetButton" class="secondary-button" type="button">Fortschritt zurücksetzen</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="adminDialog" class="overlay-dialog" aria-labelledby="adminDialogTitle">
+      <form id="adminForm" class="overlay-content">
+        <div class="overlay-header">
+          <h2 id="adminDialogTitle">Admin: Einstellungen</h2>
+          <button type="button" id="adminCloseButton" class="overlay-close" aria-label="Schließen">✕</button>
+        </div>
+        <p class="admin-hint">Lege fest, wie viele Bobos höchstens angezeigt werden und wie groß der Unterschied zwischen den Gruppen höchstens sein darf.</p>
+
+        <label class="admin-field">
+          <span>Höchste Anzahl Bobos pro Seite: <strong id="maxCountValue"></strong></span>
+          <input type="range" id="maxCountInput" min="2" max="20" step="1">
+        </label>
+
+        <label class="admin-field">
+          <span>Maximale Differenz zwischen den Seiten: <strong id="maxDiffValue"></strong></span>
+          <input type="range" id="maxDiffInput" min="1" max="19" step="1">
+        </label>
+
+        <div class="parent-actions">
+          <button type="submit" id="adminSaveButton" class="secondary-button">Speichern</button>
+        </div>
+      </form>
+    </dialog>
+  </main>
+
+  <script src="script.js?v=1"></script>
+</body>
+</html>

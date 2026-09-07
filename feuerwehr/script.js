@@ -85,6 +85,10 @@
   const NOZZLE_X_FRAC = 595 / 630;
   const NOZZLE_Y_FRAC = 172 / 796;
 
+  const ALARM_DURATION = 2600;
+  const EXTINGUISH_DURATION = 1600;
+  const SPRAY_FADE_DURATION = 400;
+
   let audioCtx = null;
 
   function getAudioContext() {
@@ -95,7 +99,7 @@
     return audioCtx;
   }
 
-  function playSiren(duration = 1800) {
+  function playSiren(duration = 2600) {
     const ctx = getAudioContext();
     if (!ctx) return;
 
@@ -104,7 +108,7 @@
     osc.type = "sine";
     osc.connect(gain);
     gain.connect(ctx.destination);
-    gain.gain.value = 0.15;
+    gain.gain.value = 0.24;
 
     const now = ctx.currentTime;
     const end = now + duration / 1000;
@@ -123,7 +127,7 @@
     osc.stop(end);
   }
 
-  function playWaterSound(duration = 450) {
+  function playWaterSound(duration = 1100) {
     const ctx = getAudioContext();
     if (!ctx) return;
 
@@ -335,13 +339,13 @@
 
   function startAlarmPhase() {
     alarmStage.hidden = false;
-    playSiren(1800);
+    playSiren(ALARM_DURATION);
 
     setTimeout(() => {
       alarmStage.hidden = true;
       fireStage.hidden = false;
       startFirePhase();
-    }, 2200);
+    }, ALARM_DURATION + 200);
   }
 
   // --- Phase 2: Löscheinsatz ---
@@ -427,7 +431,7 @@
       } else {
         igniteWindow(win.id);
       }
-    }, 700);
+    }, EXTINGUISH_DURATION);
   }
 
   function spawnWaterSpray(targetButton) {
@@ -455,8 +459,10 @@
     spray.style.transform = `rotate(${angle}deg)`;
 
     fireScene.append(spray);
-    playWaterSound(450);
-    setTimeout(() => spray.remove(), 550);
+    playWaterSound(EXTINGUISH_DURATION - 200);
+
+    setTimeout(() => spray.classList.add("water-spray--fade"), EXTINGUISH_DURATION - SPRAY_FADE_DURATION);
+    setTimeout(() => spray.remove(), EXTINGUISH_DURATION);
   }
 
   function finishFirePhase() {

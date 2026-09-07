@@ -353,6 +353,12 @@ button:focus-visible {
   transform-origin: left center;
   pointer-events: none;
   z-index: 5;
+  opacity: 1;
+}
+
+.water-spray--fade {
+  transition: opacity 400ms ease;
+  opacity: 0;
 }
 
 .progress {

@@ -94,11 +94,32 @@
 
   let audioCtx = null;
 
+  // iOS Safari (and some Android browsers) only fully "unlock" a Web Audio
+  // context if a sound is actually started synchronously inside the very
+  // first user gesture. Calling resume() alone leaves the context reporting
+  // "running" while still producing no audible output for anything scheduled
+  // later (e.g. the siren, which starts after a setTimeout). Playing a silent
+  // buffer here performs that unlock.
+  function unlockAudioContext(ctx) {
+    const buffer = ctx.createBuffer(1, 1, ctx.sampleRate);
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(ctx.destination);
+    source.start(0);
+  }
+
   function getAudioContext() {
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     if (!AudioCtx) return null;
-    if (!audioCtx) audioCtx = new AudioCtx();
+
+    let justCreated = false;
+    if (!audioCtx) {
+      audioCtx = new AudioCtx();
+      justCreated = true;
+    }
     if (audioCtx.state === "suspended") audioCtx.resume();
+    if (justCreated) unlockAudioContext(audioCtx);
+
     return audioCtx;
   }
 
@@ -499,6 +520,13 @@
 
   speechButton.addEventListener("click", repeatInstruction);
   restartButton.addEventListener("click", restartGame);
+
+  // Extra safety net: unlock audio on the very first interaction with the
+  // page, no matter which element is touched first, so the siren and water
+  // sound are guaranteed to work once the fire phase starts.
+  ["pointerdown", "touchend", "click", "keydown"].forEach(type => {
+    document.addEventListener(type, getAudioContext, { once: true, passive: true });
+  });
 
   if ("speechSynthesis" in window) {
     window.speechSynthesis.onvoiceschanged = () => {};

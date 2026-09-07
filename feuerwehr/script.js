@@ -79,6 +79,80 @@
   let targetCount = 6;
   let fireLocked = false;
 
+  // Nozzle tip position (595px / 172px) calibrated against the
+  // loeschender-bobo.jpg source image (630 x 796), expressed as a
+  // fraction so it stays correct at any rendered size.
+  const NOZZLE_X_FRAC = 595 / 630;
+  const NOZZLE_Y_FRAC = 172 / 796;
+
+  let audioCtx = null;
+
+  function getAudioContext() {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return null;
+    if (!audioCtx) audioCtx = new AudioCtx();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    return audioCtx;
+  }
+
+  function playSiren(duration = 1800) {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    gain.gain.value = 0.15;
+
+    const now = ctx.currentTime;
+    const end = now + duration / 1000;
+    const step = 0.3;
+    osc.frequency.setValueAtTime(650, now);
+
+    let t = now;
+    let high = true;
+    while (t < end) {
+      t += step;
+      osc.frequency.linearRampToValueAtTime(high ? 950 : 650, Math.min(t, end));
+      high = !high;
+    }
+
+    osc.start(now);
+    osc.stop(end);
+  }
+
+  function playWaterSound(duration = 450) {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+
+    const bufferSize = Math.max(1, Math.floor(ctx.sampleRate * (duration / 1000)));
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+
+    const filter = ctx.createBiquadFilter();
+    filter.type = "bandpass";
+    filter.frequency.value = 2500;
+    filter.Q.value = 0.6;
+
+    const gain = ctx.createGain();
+    const now = ctx.currentTime;
+    gain.gain.setValueAtTime(0.28, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + duration / 1000);
+
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+
+    noise.start(now);
+    noise.stop(now + duration / 1000);
+  }
+
   function speak(text, onEnd) {
     if (!("speechSynthesis" in window)) {
       if (onEnd) onEnd();
@@ -224,6 +298,7 @@
   function handleDressPick(key, button) {
     if (!pendingKeys.includes(key)) return;
 
+    getAudioContext();
     wornKeys.add(key);
     boboImage.src = imageForWorn();
     button.remove();
@@ -260,6 +335,7 @@
 
   function startAlarmPhase() {
     alarmStage.hidden = false;
+    playSiren(1800);
 
     setTimeout(() => {
       alarmStage.hidden = true;
@@ -359,8 +435,8 @@
     const fireRect = firefighterImage.getBoundingClientRect();
     const targetRect = targetButton.getBoundingClientRect();
 
-    const startX = fireRect.left + fireRect.width * 0.82 - sceneRect.left;
-    const startY = fireRect.top + fireRect.height * 0.38 - sceneRect.top;
+    const startX = fireRect.left + fireRect.width * NOZZLE_X_FRAC - sceneRect.left;
+    const startY = fireRect.top + fireRect.height * NOZZLE_Y_FRAC - sceneRect.top;
     const endX = targetRect.left + targetRect.width / 2 - sceneRect.left;
     const endY = targetRect.top + targetRect.height / 2 - sceneRect.top;
 
@@ -379,6 +455,7 @@
     spray.style.transform = `rotate(${angle}deg)`;
 
     fireScene.append(spray);
+    playWaterSound(450);
     setTimeout(() => spray.remove(), 550);
   }
 

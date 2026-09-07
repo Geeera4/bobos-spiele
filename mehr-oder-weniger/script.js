@@ -23,6 +23,8 @@
   const rightSide = document.getElementById("rightSide");
   const leftGroup = document.getElementById("leftGroup");
   const rightGroup = document.getElementById("rightGroup");
+  const leftCountEl = document.getElementById("leftCount");
+  const rightCountEl = document.getElementById("rightCount");
   const feedback = document.querySelector(".feedback");
   const feedbackIcon = document.getElementById("feedbackIcon");
   const feedbackTitle = document.getElementById("feedbackTitle");
@@ -189,6 +191,8 @@
 
     renderGroup(leftGroup, leftCount);
     renderGroup(rightGroup, rightCount);
+    leftCountEl.textContent = String(leftCount);
+    rightCountEl.textContent = String(rightCount);
 
     instructionText.textContent = QUESTIONS[questionKey].prompt;
     feedback.className = "feedback";

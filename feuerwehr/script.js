@@ -74,10 +74,13 @@
   let stepIndex = 0;
   let pendingKeys = [];
 
-  let burningWindowId = null;
+  const MAX_CONCURRENT_FIRES = Math.min(3, WINDOWS.length);
+
+  let burningWindowIds = new Set();
+  let extinguishingWindowIds = new Set();
   let extinguishedCount = 0;
+  let lightedCount = 0;
   let targetCount = 6;
-  let fireLocked = false;
 
   // Nozzle tip position (595px / 172px) calibrated against the
   // loeschender-bobo.jpg source image (630 x 796), expressed as a
@@ -380,41 +383,48 @@
 
   function startFirePhase() {
     extinguishedCount = 0;
-    targetCount = randomInt(6, 8);
-    fireLocked = false;
+    lightedCount = 0;
+    targetCount = randomInt(10, 20);
+    burningWindowIds = new Set();
+    extinguishingWindowIds = new Set();
     buildHouseWindows();
     updateFireProgress();
-    igniteWindow();
+
+    const initialFires = Math.min(MAX_CONCURRENT_FIRES, targetCount);
+    for (let i = 0; i < initialFires; i++) igniteWindow();
+
+    setInstruction("Wo brennt es? Klick auf die brennenden Fenster!");
   }
 
   function updateFireProgress() {
     fireProgress.textContent = `Gelöschte Brände: ${extinguishedCount} / ${targetCount}`;
   }
 
-  function igniteWindow(excludeId) {
-    const choices = WINDOWS.filter(w => w.id !== excludeId);
+  function igniteWindow() {
+    if (lightedCount >= targetCount) return;
+
+    const choices = WINDOWS.filter(w => !burningWindowIds.has(w.id) && !extinguishingWindowIds.has(w.id));
+    if (choices.length === 0) return;
+
     const chosen = choices[randomInt(0, choices.length - 1)];
-    burningWindowId = chosen.id;
+    burningWindowIds.add(chosen.id);
+    lightedCount += 1;
 
-    houseWrap.querySelectorAll(".window-hotspot").forEach(el => {
-      el.classList.toggle("is-burning", el.dataset.id === chosen.id);
-    });
-
-    setInstruction("Wo brennt es? Klick auf das brennende Fenster!", { speakNow: false });
+    const button = houseWrap.querySelector(`.window-hotspot[data-id="${chosen.id}"]`);
+    if (button) button.classList.add("is-burning");
   }
 
   function handleWindowClick(win) {
-    if (fireLocked) return;
-
     const button = houseWrap.querySelector(`.window-hotspot[data-id="${win.id}"]`);
 
-    if (win.id !== burningWindowId) {
+    if (!burningWindowIds.has(win.id)) {
       button.classList.add("shake");
       setTimeout(() => button.classList.remove("shake"), 400);
       return;
     }
 
-    fireLocked = true;
+    burningWindowIds.delete(win.id);
+    extinguishingWindowIds.add(win.id);
     button.classList.remove("is-burning");
     button.classList.add("just-extinguished");
     setTimeout(() => button.classList.remove("just-extinguished"), 500);
@@ -423,13 +433,12 @@
     extinguishedCount += 1;
     updateFireProgress();
 
-    const finished = extinguishedCount >= targetCount;
     setTimeout(() => {
-      fireLocked = false;
-      if (finished) {
+      extinguishingWindowIds.delete(win.id);
+      if (extinguishedCount >= targetCount && burningWindowIds.size === 0) {
         finishFirePhase();
       } else {
-        igniteWindow(win.id);
+        igniteWindow();
       }
     }, EXTINGUISH_DURATION);
   }

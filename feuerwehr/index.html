@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ff6b4a">
+  <title>Bobo Feuerwehr</title>
+  <link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+  <main class="game" aria-labelledby="game-title">
+    <h1 id="game-title" class="sr-only">Bobo Feuerwehr</h1>
+
+    <section class="hero" aria-label="Aufgabe">
+      <button class="speech-bubble" id="speechButton" type="button" aria-label="Aufgabe vorlesen">
+        <span class="speaker" aria-hidden="true">🔊</span>
+        <span id="instructionText">Zieh Bobo als Feuerwehrmann an!</span>
+      </button>
+    </section>
+
+    <!-- Phase 1: Anziehen -->
+    <section class="stage" id="dressStage" aria-label="Bobo anziehen">
+      <div class="bobo-wrap">
+        <img id="boboImage" class="bobo-image" src="bobo-unterhose.jpg" alt="Bobo">
+      </div>
+      <div class="options" id="dressOptions" role="group" aria-label="Kleidungsstücke"></div>
+    </section>
+
+    <!-- Phase 2: Löscheinsatz -->
+    <section class="stage stage--fire" id="fireStage" aria-label="Löscheinsatz" hidden>
+      <div class="fire-scene">
+        <div class="firefighter-box">
+          <img id="firefighterImage" class="firefighter-image" src="loeschender-bobo.jpg" alt="Feuerwehrmann Bobo">
+        </div>
+        <div class="house-box">
+          <div class="house-wrap" id="houseWrap">
+            <img id="houseImage" class="house-image" src="haus-bobo.png" alt="Haus">
+          </div>
+        </div>
+      </div>
+      <div class="progress" id="fireProgress" aria-live="polite"></div>
+    </section>
+
+    <!-- Abschluss -->
+    <section class="stage stage--done" id="doneStage" hidden>
+      <div class="done-panel">
+        <div class="done-emoji" aria-hidden="true">🎉👏🎉</div>
+        <h2 id="doneTitle">Super gemacht!</h2>
+        <p id="doneText">Bobo hat alle Brände gelöscht.</p>
+        <button class="primary-button" id="restartButton" type="button">Nochmal spielen</button>
+      </div>
+    </section>
+
+    <a href="../index.html" class="home-link">← Zur Spieleübersicht</a>
+  </main>
+
+  <script src="script.js?v=1"></script>
+</body>
+</html>

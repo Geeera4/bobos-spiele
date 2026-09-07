@@ -70,6 +70,11 @@ html, body {
   object-fit: cover;
 }
 
+.icon-image--contain {
+  object-fit: contain;
+  padding: 14%;
+}
+
 .icon-tile--soon {
   background: rgba(255,255,255,.35);
   font-size: 2rem;

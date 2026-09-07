@@ -86,16 +86,34 @@ button:focus-visible {
 
 /* --- Phase 1: Anziehen --- */
 
+.dress-layout {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 4vw, 40px);
+}
+
 .bobo-wrap {
   flex: 1 1 auto;
+  height: 100%;
   min-height: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 28px;
+  transition: background-color .15s ease, box-shadow .15s ease;
+}
+
+.bobo-wrap.drop-hover {
+  background-color: rgba(226, 67, 30, .1);
+  box-shadow: inset 0 0 0 4px var(--accent);
 }
 
 .bobo-image {
-  max-width: min(320px, 80%);
+  max-width: min(260px, 65vw);
   max-height: 100%;
   object-fit: contain;
   filter: drop-shadow(0 10px 16px rgba(0,0,0,.15));
@@ -115,25 +133,26 @@ button:focus-visible {
 .options {
   flex: 0 0 auto;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  gap: clamp(14px, 3vw, 32px);
-  padding: clamp(10px, 2vh, 20px) 0;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(12px, 2.5vh, 28px);
 }
 
 .option-button {
   border: 4px solid transparent;
   border-radius: 22px;
   background: var(--panel);
-  cursor: pointer;
+  cursor: grab;
   box-shadow: 0 6px 0 rgba(0,0,0,.08);
-  padding: 12px 18px;
+  padding: 10px 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   transition: transform .12s ease, box-shadow .12s ease;
-  touch-action: manipulation;
+  touch-action: none;
+  user-select: none;
 }
 
 .option-button:active {
@@ -141,16 +160,88 @@ button:focus-visible {
   box-shadow: 0 2px 0 rgba(0,0,0,.08);
 }
 
+.option-button.dragging {
+  cursor: grabbing;
+  position: relative;
+  z-index: 20;
+  box-shadow: 0 14px 26px rgba(0,0,0,.22);
+  transition: none;
+}
+
 .option-icon {
-  width: clamp(56px, 12vw, 96px);
-  height: clamp(56px, 12vw, 96px);
+  width: clamp(44px, 8vw, 68px);
+  height: clamp(44px, 8vw, 68px);
   object-fit: contain;
+  pointer-events: none;
 }
 
 .option-label {
   font-weight: 800;
-  font-size: .95rem;
+  font-size: .85rem;
   color: var(--text);
+  pointer-events: none;
+}
+
+/* --- Übergang: Alarm --- */
+
+.stage--alarm {
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+}
+
+.alarm-lights {
+  display: flex;
+  gap: 24px;
+}
+
+.alarm-light {
+  width: clamp(36px, 8vw, 56px);
+  height: clamp(36px, 8vw, 56px);
+  border-radius: 50%;
+  animation: alarm-flash 500ms steps(1) infinite;
+}
+
+.alarm-light--red {
+  background: #ff3b30;
+  box-shadow: 0 0 40px 12px rgba(255,59,48,.7);
+}
+
+.alarm-light--blue {
+  background: #2b6bff;
+  box-shadow: 0 0 40px 12px rgba(43,107,255,.7);
+  animation-delay: 250ms;
+}
+
+@keyframes alarm-flash {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: .25; }
+}
+
+.alarm-text {
+  font-weight: 800;
+  font-size: clamp(1.3rem, 4vw, 2.2rem);
+  color: var(--text);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .dress-layout {
+    flex-direction: column;
+    gap: clamp(8px, 2vh, 16px);
+  }
+
+  .bobo-wrap {
+    flex: 1 1 auto;
+  }
+
+  .options {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 }
 
 /* --- Phase 2: Löscheinsatz --- */
@@ -364,7 +455,8 @@ button:focus-visible {
   .bobo-image.celebrate,
   .window-hotspot.shake,
   .window-hotspot.is-burning .flame--a,
-  .window-hotspot.is-burning .flame--b {
+  .window-hotspot.is-burning .flame--b,
+  .alarm-light {
     animation: none;
   }
 }

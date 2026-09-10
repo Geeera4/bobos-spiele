@@ -10,7 +10,8 @@ Jedes Spiel liegt in seinem eigenen Unterordner. Aktuell verfügbar:
 - **Farbenspiel** (`farbenspiel/`)
 - **Was gehört wohin?** (`kuechen-bad/`)
 - **Mehr oder weniger?** (`mehr-oder-weniger/`)
-- **Bobo Feuerwehr** (`feuerwehr/`) – weitere Spiele folgen.
+- **Bobo Feuerwehr** (`feuerwehr/`)
+- **Bobos Zoo** (`zoo/`) – weitere Spiele folgen.
 
 ## Farbenspiel
 
@@ -66,6 +67,21 @@ Bobo wird Schritt für Schritt als Feuerwehrmann angezogen und rückt danach zu 
 - Klickt man auf das brennende Fenster, spritzt Wasser aus dem Schlauch und der Brand wird gelöscht; klickt man daneben, sagt Bobo, dass es dort nicht brennt.
 - Nach 6 bis 8 gelöschten Bränden ist der Einsatz geschafft und man kann das Spiel erneut starten.
 
+## Bobos Zoo
+
+Bobo hilft dabei, einen eigenen Zoo mit drei Lebensräumen aufzubauen: Savanne, Wasserwelt und Wald.
+
+### So funktioniert es
+
+- Oben mit den drei Symbolen (🌾 🌊 🌳) zwischen den Lebensräumen wechseln.
+- Ein Tier unten im Regal antippen, damit es (mit Ansage von Name und einem kleinen Fakt) in den Zoo einzieht; erneutes Antippen nimmt es wieder heraus.
+- Auf ein Tier im Zoo tippen, wiederholt Bobo Name und Fakt.
+- Der Apfel-Button 🍎 füttert ein zufälliges Tier im aktuellen Lebensraum mit einer kleinen Herzchen-Animation.
+- Der Sonne/Mond-Button ☀️🌙 wechselt zwischen Tag- und Nachtstimmung im Zoo.
+- Auf Bobo tippen, begrüßt er einen oder erzählt einen Fakt über ein bereits eingezogenes Tier.
+- Das Spiel merkt sich den Zoo (eingezogene Tiere, Lebensraum, Tag/Nacht) im Browser; „Zoo neu beginnen“ setzt alles zurück.
+- Es gibt keine Achievements oder Punkte – nur freies, entspanntes Spielen.
+
 ## GitHub Pages
 
 Das gesamte Repository (inklusive Unterordner) direkt hochladen, die Struktur sieht so aus:
@@ -99,6 +115,10 @@ Das gesamte Repository (inklusive Unterordner) direkt hochladen, die Struktur si
   - oberteil.png, hose.png, helm.png, stiefel.png, handschuhe.png, oxygen-tank.png (Kleidungsstück-Icons)
   - loeschender-bobo.jpg, ../zu-löschendes-haus.png (Löscheinsatz)
   - feuer-transparent-1.png, feuer-transparent-2.png, wasser-transparent-1.png (Effekte)
+- zoo/
+  - index.html
+  - style.css
+  - script.js (nutzt die Bobo-Posen aus `../mehr-oder-weniger/bobos/`)
 
 Danach unter Settings → Pages:
 - Source: Deploy from a branch

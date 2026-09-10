@@ -81,6 +81,10 @@ html, body {
   box-shadow: none;
 }
 
+.icon-tile--emoji {
+  font-size: clamp(2.2rem, 8vw, 3.4rem);
+}
+
 .app-icon--soon {
   opacity: .8;
   cursor: default;

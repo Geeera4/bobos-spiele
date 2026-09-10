@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#7fd0f0">
+  <title>Bobos Zoo</title>
+  <link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+  <main class="game" aria-labelledby="game-title">
+    <h1 id="game-title" class="sr-only">Bobos Zoo</h1>
+
+    <div class="top-bar">
+      <button class="icon-toggle" id="dayNightButton" type="button" aria-label="Tag oder Nacht umschalten">☀️</button>
+
+      <button class="speech-bubble" id="speechButton" type="button" aria-label="Bobo noch einmal hören">
+        <span class="speaker" aria-hidden="true">🔊</span>
+        <span id="instructionText">Tippe ein Tier an und setze es in den Zoo!</span>
+      </button>
+
+      <button class="icon-toggle" id="treatButton" type="button" aria-label="Ein Tier füttern">🍎</button>
+    </div>
+
+    <button class="bobo-mascot" id="boboButton" type="button" aria-label="Bobo antippen">
+      <img src="../mehr-oder-weniger/bobos/bobo_pose_01.png?v=1" class="bobo-image" id="boboImage" alt="">
+    </button>
+
+    <nav class="habitat-tabs" id="habitatTabs" aria-label="Lebensräume"></nav>
+
+    <section class="habitat-view" id="habitatView" aria-label="Dein Zoo">
+      <div class="sky-decor" id="skyDecor" aria-hidden="true">
+        <span class="sky-body" id="skyBody">☀️</span>
+        <span class="star star-1">✨</span>
+        <span class="star star-2">✨</span>
+        <span class="star star-3">✨</span>
+      </div>
+      <div class="habitat-stage" id="habitatStage"></div>
+    </section>
+
+    <div class="animal-shelf" id="animalShelf" aria-label="Tierauswahl"></div>
+
+    <div class="parent-panel">
+      <button id="resetButton" class="panel-link" type="button">🔄 Zoo neu beginnen</button>
+    </div>
+
+    <a href="../index.html" class="home-link">← Zur Spieleübersicht</a>
+  </main>
+
+  <script src="script.js?v=1"></script>
+</body>
+</html>

@@ -45,6 +45,115 @@ button:focus-visible,
   overflow-y: auto;
 }
 
+.game.mode-select .hero,
+.game.mode-select .board,
+.game.mode-select .feedback,
+.game.mode-select .hint,
+.game.mode-select .change-scenes {
+  display: none;
+}
+
+.game.mode-play .scene-select {
+  display: none;
+}
+
+.scene-select {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 3vh, 28px);
+  padding: clamp(10px, 2vh, 20px) 0;
+}
+
+.select-title {
+  margin: 0;
+  font-size: clamp(1.1rem, 2vw + 0.6rem, 1.6rem);
+  font-weight: 800;
+  text-align: center;
+}
+
+.scene-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: clamp(10px, 2vw, 18px);
+  width: 100%;
+  max-width: 720px;
+}
+
+.scene-option {
+  border: 4px solid transparent;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(0,0,0,.08);
+  transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+}
+
+.scene-option:hover {
+  transform: scale(1.02);
+}
+
+.scene-thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.scene-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scene-name {
+  font-weight: 700;
+  font-size: clamp(.9rem, 1.2vw + .5rem, 1.1rem);
+}
+
+.scene-option.selected {
+  border-color: #7aa7ff;
+  box-shadow: 0 0 0 6px rgba(122,167,255,.22);
+}
+
+.start-button {
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 36px;
+  font-size: clamp(1rem, 1.4vw + .6rem, 1.3rem);
+  font-weight: 800;
+  color: #fff;
+  background: #7aa7ff;
+  cursor: pointer;
+  box-shadow: 0 4px 0 rgba(0,0,0,.12);
+}
+
+.start-button:disabled {
+  background: #c6cfe0;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.change-scenes {
+  display: block;
+  margin: 8px auto 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: .85rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .hero {
   display: grid;
   grid-template-columns: minmax(120px, 300px) minmax(200px, 1fr);

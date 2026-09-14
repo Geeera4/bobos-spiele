@@ -8,7 +8,7 @@ Die Startseite (`index.html`) zeigt eine Spieleübersicht im Stil eines iPad-Hom
 Jedes Spiel liegt in seinem eigenen Unterordner. Aktuell verfügbar:
 
 - **Farbenspiel** (`farbenspiel/`)
-- **Was gehört wohin?** (`kuechen-bad/`)
+- **Wo gehört das hin?** (`wo-gehoert-das-hin/`)
 - **Mehr oder weniger?** (`mehr-oder-weniger/`)
 - **Bobo Feuerwehr** (`feuerwehr/`)
 - **Bobos Zoo** (`zoo/`) – weitere Spiele folgen.
@@ -30,17 +30,19 @@ Blau, Rot, Grün, Weiß, Schwarz, Pink, Violett, Orange, Gelb, Braun, Grau und T
 - Farben, bei denen häufiger Fehler passieren, werden automatisch etwas öfter abgefragt.
 - Unter „Fortschritt anzeigen“ sieht man die Statistik pro Farbe.
 
-## Was gehört wohin?
+## Wo gehört das hin?
 
-Ein Gegenstand (z. B. Pfanne, Zahnbürste, Handtuch …) erscheint in der Mitte zwischen Küche und Bad.
+Zu Beginn wählt man zwei Szenerien aus, die miteinander verglichen werden sollen: Küche, Bad, Feuerwehr, Flughafen, Orchester oder Sanitätswagen. Danach erscheint ein Gegenstand aus einer der beiden Szenerien (z. B. Pfanne, Zahnbürste, Feuerwehrhelm, Reisepass, Violine, Stethoskop …) in der Mitte zwischen ihnen.
 
 ### So funktioniert es
 
+- Auf der Auswahlseite zwei Szenerien antippen (erneutes Antippen wählt wieder ab), dann auf „Los geht's!“.
 - Bobo nennt den Gegenstand über die Browser-Sprachausgabe, z. B. „Wohin gehört die Pfanne?“
-- Der Gegenstand wird per Drag & Drop (Maus, Finger/Touch) zur Küche oder zum Bad gezogen. Jedes Mal, wenn man ihn anfasst, wird er erneut angesagt.
+- Der Gegenstand wird per Drag & Drop (Maus, Finger/Touch) zur passenden Szenerie gezogen. Jedes Mal, wenn man ihn anfasst, wird er erneut angesagt.
 - Bei richtiger Zuordnung lacht Bobo, macht seinen Salto und es geht direkt weiter zum nächsten Gegenstand.
 - Bei falscher Zuordnung springt der Gegenstand zurück, Bobo sagt an, wohin er stattdessen gehört.
 - Auf Bobo oder die Sprechblase tippen wiederholt die Ansage.
+- Über „Szenerien wechseln“ kommt man jederzeit zurück zur Auswahl; die zuletzt gewählte Kombination wird im Browser gemerkt.
 
 ## Mehr oder weniger?
 
@@ -95,12 +97,13 @@ Das gesamte Repository (inklusive Unterordner) direkt hochladen, die Struktur si
   - script.js
   - bobo.webp
   - bobo-lachen.mp3
-- kuechen-bad/
+- wo-gehoert-das-hin/
   - index.html
   - style.css
   - script.js
-  - 01_kueche.png, 02_badezimmer.png (Hintergründe)
-  - 03_pfanne.png … 18_haarbuerste.png (Gegenstände)
+  - kueche/, bad/, feuerwehr/, flughafen/, orchester/, sanitaetswagen/
+    - 00_szenerie.png (Hintergrund)
+    - 01_… bis 08_… bzw. 12_… (Gegenstände der jeweiligen Szenerie)
 - mehr-oder-weniger/
   - index.html
   - style.css

@@ -4,12 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f7f7f5">
-  <title>Bobos Was gehört wohin?</title>
-  <link rel="stylesheet" href="style.css?v=2">
+  <title>Bobos Wo gehört das hin?</title>
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
   <main class="game" aria-labelledby="game-title">
-    <h1 id="game-title" class="sr-only">Was gehört wohin?</h1>
+    <h1 id="game-title" class="sr-only">Wo gehört das hin?</h1>
+
+    <section class="scene-select" id="sceneSelect" aria-label="Szenerien auswählen">
+      <p class="select-title">Welche zwei Szenerien möchtest du vergleichen?</p>
+      <div class="scene-grid" id="sceneGrid"></div>
+      <button class="start-button" id="startButton" type="button" disabled>Los geht's!</button>
+    </section>
 
     <section class="hero" aria-label="Bobo und Aufgabe">
       <button class="bobo-button" id="boboButton" type="button" aria-label="Bobo nennt den Gegenstand noch einmal">
@@ -23,9 +29,9 @@
     </section>
 
     <section class="board" aria-label="Spielfeld">
-      <div class="dropzone" id="zoneKueche" data-zone="kueche">
-        <img src="01_kueche.png" alt="" class="zone-bg">
-        <span class="zone-label">Küche</span>
+      <div class="dropzone" id="zoneA" data-zone="a">
+        <img id="zoneAImg" src="" alt="" class="zone-bg">
+        <span id="zoneALabel" class="zone-label"></span>
       </div>
 
       <div
@@ -36,9 +42,9 @@
         aria-label="Gegenstand, zum Wiederholen antippen"
       ></div>
 
-      <div class="dropzone" id="zoneBad" data-zone="bad">
-        <img src="02_badezimmer.png" alt="" class="zone-bg">
-        <span class="zone-label">Bad</span>
+      <div class="dropzone" id="zoneB" data-zone="b">
+        <img id="zoneBImg" src="" alt="" class="zone-bg">
+        <span id="zoneBLabel" class="zone-label"></span>
       </div>
     </section>
 
@@ -50,10 +56,11 @@
       </div>
     </section>
 
-    <p class="hint">Ziehe den Gegenstand in die Küche oder ins Bad. Auf Bobo oder die Sprechblase tippen, um ihn noch einmal zu hören.</p>
+    <p class="hint">Ziehe den Gegenstand in die richtige Szenerie. Auf Bobo oder die Sprechblase tippen, um ihn noch einmal zu hören.</p>
+    <button class="change-scenes" id="changeScenesButton" type="button">Szenerien wechseln</button>
     <a href="../index.html" class="home-link">← Zur Spieleübersicht</a>
   </main>
 
-  <script src="script.js?v=1"></script>
+  <script src="script.js?v=2"></script>
 </body>
 </html>

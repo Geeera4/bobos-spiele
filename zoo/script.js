@@ -1,384 +1,558 @@
 (() => {
-  const HABITATS = [
+  const CATEGORIES = [
     {
-      key: "savanne",
-      icon: "🌾",
-      label: "Savanne",
-      day: "linear-gradient(180deg, #ffe9ab 0%, #ffd27a 40%, #e0b45c 72%, #c99a46 100%)",
-      night: "linear-gradient(180deg, #2b2660 0%, #3a2f6e 40%, #55406a 72%, #6b4f52 100%)",
-      decor: [
-        { emoji: "🌴", left: "6%", top: "18%" },
-        { emoji: "🌴", left: "90%", top: "60%" },
-        { emoji: "🪨", left: "14%", top: "72%" }
+      key: "tiere",
+      icon: "🐘",
+      label: "Tiere",
+      items: [
+        { id: "loewe", emoji: "🦁", label: "Löwe", kind: "animal", reaction: "yawn" },
+        { id: "elefant", emoji: "🐘", label: "Elefant", kind: "animal", reaction: "water" },
+        { id: "giraffe", emoji: "🦒", label: "Giraffe", kind: "animal", reaction: "leaves" },
+        { id: "affe", emoji: "🐵", label: "Affe", kind: "animal", reaction: "jump" },
+        { id: "pinguin", emoji: "🐧", label: "Pinguin", kind: "animal", reaction: "slide" },
+        { id: "zebra", emoji: "🦓", label: "Zebra", kind: "animal", reaction: "bounce" },
+        { id: "krokodil", emoji: "🐊", label: "Krokodil", kind: "animal", reaction: "snap" },
+        { id: "panda", emoji: "🐼", label: "Panda", kind: "animal", reaction: "roll" }
       ]
     },
     {
-      key: "wasser",
-      icon: "🌊",
-      label: "Wasserwelt",
-      day: "linear-gradient(180deg, #bfe9ff 0%, #7fd0f0 42%, #3aa6d6 74%, #1f7fae 100%)",
-      night: "linear-gradient(180deg, #101d3d 0%, #142c52 42%, #1c3f63 74%, #234f6e 100%)",
-      decor: [
-        { emoji: "☁️", left: "12%", top: "12%" },
-        { emoji: "🐚", left: "85%", top: "70%" },
-        { emoji: "🌊", left: "10%", top: "75%" }
-      ]
-    },
-    {
-      key: "wald",
+      key: "natur",
       icon: "🌳",
-      label: "Wald",
-      day: "linear-gradient(180deg, #cdeccb 0%, #a6dba0 42%, #6fb86a 74%, #4c9a4a 100%)",
-      night: "linear-gradient(180deg, #101f16 0%, #16301f 42%, #1d4229 74%, #275630 100%)",
-      decor: [
-        { emoji: "🌲", left: "8%", top: "20%" },
-        { emoji: "🌲", left: "88%", top: "22%" },
-        { emoji: "🍄", left: "16%", top: "76%" }
+      label: "Natur",
+      items: [
+        { id: "baum", emoji: "🌳", label: "Baum", kind: "tree" },
+        { id: "blume", emoji: "🌸", label: "Blume", kind: "wiggle" },
+        { id: "busch", emoji: "🌿", label: "Busch", kind: "wiggle" },
+        { id: "teich", emoji: "💧", label: "Teich", kind: "pond" },
+        { id: "fels", emoji: "🪨", label: "Fels", kind: "static" }
+      ]
+    },
+    {
+      key: "gehege",
+      icon: "🏠",
+      label: "Gehege",
+      items: [
+        { id: "zaun", emoji: "🚧", label: "Zaun", kind: "static" },
+        { id: "tierhaus", emoji: "🏠", label: "Tierhaus", kind: "static" },
+        { id: "futterstelle", emoji: "🍽️", label: "Futterstelle", kind: "static" },
+        { id: "bank", emoji: "🪑", label: "Bank", kind: "static" },
+        { id: "weg", emoji: "🟫", label: "Weg", kind: "static" }
+      ]
+    },
+    {
+      key: "deko",
+      icon: "🌸",
+      label: "Deko",
+      items: [
+        { id: "ballon", emoji: "🎈", label: "Ballon", kind: "balloon" },
+        { id: "schmetterling", emoji: "🦋", label: "Schmetterling", kind: "wiggle" },
+        { id: "fahne", emoji: "🚩", label: "Fähnchen", kind: "static" },
+        { id: "sonnenblume", emoji: "🌻", label: "Sonnenblume", kind: "wiggle" }
       ]
     }
   ];
 
-  const ANIMALS = [
-    { id: "loewe", name: "Löwe", emoji: "🦁", habitat: "savanne", fact: "Der Löwe brüllt ganz laut: ROAR!" },
-    { id: "elefant", name: "Elefant", emoji: "🐘", habitat: "savanne", fact: "Der Elefant spritzt Wasser mit seinem Rüssel." },
-    { id: "giraffe", name: "Giraffe", emoji: "🦒", habitat: "savanne", fact: "Die Giraffe hat einen sehr langen Hals." },
-    { id: "zebra", name: "Zebra", emoji: "🦓", habitat: "savanne", fact: "Das Zebra hat schwarze und weiße Streifen." },
+  const ITEM_BY_ID = {};
+  CATEGORIES.forEach(cat => cat.items.forEach(item => { ITEM_BY_ID[item.id] = item; }));
 
-    { id: "pinguin", name: "Pinguin", emoji: "🐧", habitat: "wasser", fact: "Der Pinguin watschelt und schwimmt ganz toll." },
-    { id: "flamingo", name: "Flamingo", emoji: "🦩", habitat: "wasser", fact: "Der Flamingo steht gerne auf einem Bein." },
-    { id: "seehund", name: "Seehund", emoji: "🦭", habitat: "wasser", fact: "Der Seehund klatscht fröhlich mit den Flossen." },
-    { id: "krokodil", name: "Krokodil", emoji: "🐊", habitat: "wasser", fact: "Das Krokodil macht klack klack mit dem Maul." },
+  const IDLE_KINDS = new Set(["animal", "tree", "wiggle", "balloon"]);
+  const STORAGE_KEY = "bobos-zoo-v2";
+  const MILESTONES = [5, 15, 30, 50, 80];
 
-    { id: "panda", name: "Panda", emoji: "🐼", habitat: "wald", fact: "Der Panda mag am liebsten Bambus." },
-    { id: "affe", name: "Affe", emoji: "🐒", habitat: "wald", fact: "Der Affe klettert von Ast zu Ast." },
-    { id: "fuchs", name: "Fuchs", emoji: "🦊", habitat: "wald", fact: "Der Fuchs schleicht ganz leise durch den Wald." },
-    { id: "eule", name: "Eule", emoji: "🦉", habitat: "wald", fact: "Die Eule sagt: Huhu, huhu." }
-  ];
-
-  const GREETINGS = [
-    "Hallo! Ich bin Bobo! Lass uns einen Zoo bauen!",
-    "Welches Tier setzen wir als Nächstes in den Zoo?",
-    "Dein Zoo wird richtig schön!",
-    "Tippe ein Tier an, dann zieht es bei uns ein!"
-  ];
-
-  const habitatTabs = document.getElementById("habitatTabs");
-  const habitatView = document.getElementById("habitatView");
-  const habitatStage = document.getElementById("habitatStage");
-  const skyBody = document.getElementById("skyBody");
-  const animalShelf = document.getElementById("animalShelf");
-  const instructionText = document.getElementById("instructionText");
-  const speechButton = document.getElementById("speechButton");
-  const boboButton = document.getElementById("boboButton");
-  const boboImage = document.getElementById("boboImage");
-  const dayNightButton = document.getElementById("dayNightButton");
-  const treatButton = document.getElementById("treatButton");
-  const resetButton = document.getElementById("resetButton");
-
-  const STORAGE_KEY = "bobos-zoo-progress-v1";
+  const meadow = document.getElementById("meadow");
+  const objectsLayer = document.getElementById("objectsLayer");
+  const fxLayer = document.getElementById("fxLayer");
+  const celebrateLayer = document.getElementById("celebrateLayer");
+  const categoryBar = document.getElementById("categoryBar");
+  const tray = document.getElementById("tray");
+  const trayCards = document.getElementById("trayCards");
+  const trayClose = document.getElementById("trayClose");
+  const parentGear = document.getElementById("parentGear");
+  const parentOverlay = document.getElementById("parentOverlay");
+  const soundToggle = document.getElementById("soundToggle");
+  const musicToggle = document.getElementById("musicToggle");
+  const resetZooBtn = document.getElementById("resetZooBtn");
+  const closeParentBtn = document.getElementById("closeParentBtn");
 
   function loadState() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       const parsed = raw ? JSON.parse(raw) : null;
-      if (!parsed || typeof parsed !== "object") return { placed: [], dayNight: "day", habitat: "savanne" };
+      if (!parsed || typeof parsed !== "object") throw new Error("empty");
 
-      const validIds = new Set(ANIMALS.map(a => a.id));
-      const placed = Array.isArray(parsed.placed) ? parsed.placed.filter(id => validIds.has(id)) : [];
-      const dayNight = parsed.dayNight === "night" ? "night" : "day";
-      const habitat = HABITATS.some(h => h.key === parsed.habitat) ? parsed.habitat : "savanne";
+      const objects = Array.isArray(parsed.objects)
+        ? parsed.objects.filter(o => o && ITEM_BY_ID[o.itemId] && typeof o.x === "number" && typeof o.y === "number")
+        : [];
 
-      return { placed, dayNight, habitat };
+      return {
+        objects,
+        settings: {
+          sound: parsed.settings?.sound !== false,
+          music: !!parsed.settings?.music
+        },
+        celebrated: Array.isArray(parsed.celebrated) ? parsed.celebrated : []
+      };
     } catch {
-      return { placed: [], dayNight: "day", habitat: "savanne" };
+      return { objects: [], settings: { sound: true, music: false }, celebrated: [] };
     }
   }
 
   function saveState() {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        placed: [...placedIds],
-        dayNight,
-        habitat: currentHabitat
-      }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch {
       // Der Zoo wird dann nicht dauerhaft gespeichert.
     }
   }
 
-  const initial = loadState();
-  let placedIds = new Set(initial.placed);
-  let dayNight = initial.dayNight;
-  let currentHabitat = initial.habitat;
-  const positions = new Map();
+  const state = loadState();
 
-  function speak(text, onEnd) {
-    if (!("speechSynthesis" in window)) {
-      if (onEnd) onEnd();
-      return;
-    }
+  let openCategoryKey = null;
+  let placingItem = null;
 
-    window.speechSynthesis.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "de-DE";
-    utterance.rate = 0.94;
-    utterance.pitch = 1.1;
-    utterance.volume = 1;
-
-    const voices = window.speechSynthesis.getVoices();
-    const germanVoices = voices.filter(v => /^de(-|_)/i.test(v.lang));
-
-    if (germanVoices.length) {
-      const preferred = germanVoices.find(v => /anna|katja|petra|sophie|female|frau/i.test(v.name));
-      utterance.voice = preferred || germanVoices[0];
-    }
-
-    if (onEnd) {
-      utterance.onend = onEnd;
-      utterance.onerror = onEnd;
-    }
-
-    window.speechSynthesis.speak(utterance);
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
   }
 
-  function randomPosition() {
-    return {
-      left: `${18 + Math.random() * 64}%`,
-      top: `${28 + Math.random() * 52}%`,
-      delay: `${Math.random() * 2}s`
-    };
+  function dist(x1, y1, x2, y2) {
+    return Math.hypot(x1 - x2, y1 - y2);
   }
 
-  function positionFor(id) {
-    if (!positions.has(id)) positions.set(id, randomPosition());
-    return positions.get(id);
+  function makeUid() {
+    return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
   }
 
-  function renderTabs() {
-    habitatTabs.innerHTML = "";
-    HABITATS.forEach(habitat => {
+  function findFreeSpot(x, y) {
+    let px = x;
+    let py = y;
+    let attempt = 0;
+
+    while (attempt < 10 && state.objects.some(o => dist(o.x, o.y, px, py) < 8)) {
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 6 + attempt * 2;
+      px = clamp(x + Math.cos(angle) * radius, 6, 94);
+      py = clamp(y + Math.sin(angle) * radius, 16, 92);
+      attempt++;
+    }
+
+    return { x: px, y: py };
+  }
+
+  /* ---------- Rendering ---------- */
+
+  function createObjectElement(obj) {
+    const item = ITEM_BY_ID[obj.itemId];
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "zoo-object";
+    btn.dataset.uid = obj.uid;
+    btn.style.left = `${obj.x}%`;
+    btn.style.top = `${obj.y}%`;
+    btn.style.setProperty("--rot", `${obj.rot}deg`);
+    btn.style.setProperty("--scale", `${0.75 + (obj.y / 100) * 0.4}`);
+    btn.style.zIndex = String(200 + Math.round(obj.y * 10));
+    btn.setAttribute("aria-label", item.label);
+
+    const emoji = document.createElement("span");
+    emoji.className = "obj-emoji" + (item.kind === "pond" ? " pond" : "") + (IDLE_KINDS.has(item.kind) ? "" : " no-idle");
+    emoji.style.setProperty("--delay", `${obj.delay}s`);
+    emoji.textContent = item.emoji;
+    btn.append(emoji);
+
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      triggerReaction(obj, item, emoji);
+    });
+
+    return btn;
+  }
+
+  function render() {
+    objectsLayer.innerHTML = "";
+    state.objects.forEach(obj => objectsLayer.append(createObjectElement(obj)));
+  }
+
+  function renderCategoryBar() {
+    categoryBar.innerHTML = "";
+    CATEGORIES.forEach(cat => {
       const btn = document.createElement("button");
-      btn.className = "habitat-tab" + (habitat.key === currentHabitat ? " active" : "");
       btn.type = "button";
-      btn.textContent = habitat.icon;
-      btn.setAttribute("aria-label", habitat.label);
-      btn.addEventListener("click", () => switchHabitat(habitat.key));
-      habitatTabs.append(btn);
+      btn.className = "category-btn";
+      btn.dataset.key = cat.key;
+
+      const icon = document.createElement("span");
+      icon.className = "category-icon";
+      icon.textContent = cat.icon;
+
+      const label = document.createElement("span");
+      label.className = "category-label";
+      label.textContent = cat.label;
+
+      btn.append(icon, label);
+      btn.addEventListener("click", () => toggleCategory(cat.key));
+      categoryBar.append(btn);
     });
   }
 
-  function currentHabitatData() {
-    return HABITATS.find(h => h.key === currentHabitat);
-  }
-
-  function applySky() {
-    habitatView.classList.toggle("night", dayNight === "night");
-    dayNightButton.textContent = dayNight === "night" ? "🌙" : "☀️";
-    skyBody.textContent = dayNight === "night" ? "🌙" : "☀️";
-  }
-
-  function renderStage() {
-    habitatStage.innerHTML = "";
-    const habitat = currentHabitatData();
-    habitatStage.style.background = dayNight === "night" ? habitat.night : habitat.day;
-
-    habitat.decor.forEach(d => {
-      const span = document.createElement("span");
-      span.className = "stage-decor";
-      span.textContent = d.emoji;
-      span.style.left = d.left;
-      span.style.top = d.top;
-      habitatStage.append(span);
-    });
-
-    const animalsHere = ANIMALS.filter(a => a.habitat === currentHabitat && placedIds.has(a.id));
-
-    if (animalsHere.length === 0) {
-      const hint = document.createElement("div");
-      hint.className = "empty-hint";
-      hint.textContent = "Wähle unten ein Tier aus!";
-      habitatStage.append(hint);
-    }
-
-    animalsHere.forEach(animal => {
-      const pos = positionFor(animal.id);
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "zoo-animal";
-      btn.textContent = animal.emoji;
-      btn.style.left = pos.left;
-      btn.style.top = pos.top;
-      btn.style.animationDelay = pos.delay;
-      btn.setAttribute("aria-label", animal.name);
-      btn.addEventListener("click", () => pokeAnimal(animal, btn));
-      habitatStage.append(btn);
+  function updateCategoryStates() {
+    categoryBar.querySelectorAll(".category-btn").forEach(btn => {
+      const key = btn.dataset.key;
+      btn.classList.toggle("open", key === openCategoryKey);
+      btn.classList.toggle("placing", !!placingItem && placingItem.catKey === key);
     });
   }
 
-  function renderShelf() {
-    animalShelf.innerHTML = "";
-    const animalsHere = ANIMALS.filter(a => a.habitat === currentHabitat);
+  function renderTray(catKey) {
+    const cat = CATEGORIES.find(c => c.key === catKey);
+    trayCards.innerHTML = "";
 
-    animalsHere.forEach(animal => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "animal-btn";
-      btn.dataset.id = animal.id;
-      const placed = placedIds.has(animal.id);
-      btn.setAttribute("aria-pressed", String(placed));
+    cat.items.forEach(item => {
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "item-card";
+      card.dataset.id = item.id;
 
       const emoji = document.createElement("span");
-      emoji.className = "animal-emoji";
-      emoji.textContent = animal.emoji;
+      emoji.className = "item-emoji";
+      emoji.textContent = item.emoji;
 
-      const name = document.createElement("span");
-      name.className = "animal-name";
-      name.textContent = animal.name;
+      const label = document.createElement("span");
+      label.className = "item-label";
+      label.textContent = item.label;
 
-      btn.append(emoji, name);
-      btn.addEventListener("click", () => toggleAnimal(animal));
-      animalShelf.append(btn);
+      card.append(emoji, label);
+      card.addEventListener("click", () => selectItem(cat.key, item, card));
+      trayCards.append(card);
     });
   }
 
-  function switchHabitat(key) {
-    if (key === currentHabitat) return;
-    currentHabitat = key;
-    saveState();
-    renderTabs();
-    renderStage();
-    renderShelf();
-  }
-
-  function toggleAnimal(animal) {
-    if (placedIds.has(animal.id)) {
-      placedIds.delete(animal.id);
-      saveState();
-      renderStage();
-      renderShelf();
+  function toggleCategory(key) {
+    if (openCategoryKey === key) {
+      closeTray();
       return;
     }
 
-    placedIds.add(animal.id);
-    saveState();
-    renderStage();
-    renderShelf();
-
-    instructionText.textContent = `${animal.name} zieht in den Zoo ein!`;
-    speak(`${animal.name}! ${animal.fact}`);
+    openCategoryKey = key;
+    placingItem = null;
+    renderTray(key);
+    tray.hidden = false;
+    updateCategoryStates();
   }
 
-  function pokeAnimal(animal, el) {
-    el.classList.remove("poke");
+  function closeTray() {
+    openCategoryKey = null;
+    placingItem = null;
+    tray.hidden = true;
+    updateCategoryStates();
+  }
+
+  function selectItem(catKey, item, cardEl) {
+    placingItem = { catKey, item };
+    trayCards.querySelectorAll(".item-card").forEach(el => el.classList.toggle("selected", el === cardEl));
+    updateCategoryStates();
+  }
+
+  /* ---------- Platzieren ---------- */
+
+  function pointToMeadowPercent(clientX, clientY) {
+    const rect = meadow.getBoundingClientRect();
+    const x = clamp(((clientX - rect.left) / rect.width) * 100, 6, 94);
+    const y = clamp(((clientY - rect.top) / rect.height) * 100, 16, 92);
+    return { x, y };
+  }
+
+  function placeAt(clientX, clientY) {
+    if (!placingItem) return;
+
+    const raw = pointToMeadowPercent(clientX, clientY);
+    const spot = findFreeSpot(raw.x, raw.y);
+
+    const obj = {
+      uid: makeUid(),
+      itemId: placingItem.item.id,
+      x: spot.x,
+      y: spot.y,
+      rot: Math.round(Math.random() * 16 - 8),
+      delay: Math.round(Math.random() * 30) / 10
+    };
+
+    state.objects.push(obj);
+    saveState();
+
+    const el = createObjectElement(obj);
+    el.classList.add("obj-pop-in");
+    objectsLayer.append(el);
+
+    spawnFx("⭐", obj.x, obj.y, "fx-star");
+    spawnFx("✨", obj.x, obj.y, "fx-star");
+    playPop();
+    checkMilestone();
+  }
+
+  meadow.addEventListener("click", e => {
+    if (!placingItem) return;
+    placeAt(e.clientX, e.clientY);
+  });
+
+  /* ---------- Effekte ---------- */
+
+  function spawnFx(emoji, xPct, yPct, animClass, dx) {
+    const span = document.createElement("span");
+    span.className = `fx-item ${animClass}`;
+    span.textContent = emoji;
+    span.style.left = `${clamp(xPct + (Math.random() * 6 - 3), 2, 98)}%`;
+    span.style.top = `${clamp(yPct + (Math.random() * 6 - 3), 2, 98)}%`;
+    if (dx !== undefined) span.style.setProperty("--dx", `${dx}px`);
+    fxLayer.append(span);
+    span.addEventListener("animationend", () => span.remove());
+    setTimeout(() => span.remove(), 1600);
+  }
+
+  function spawnRipples(xPct, yPct) {
+    for (let i = 0; i < 3; i++) {
+      setTimeout(() => {
+        const ring = document.createElement("div");
+        ring.className = "fx-ripple";
+        ring.style.left = `${xPct}%`;
+        ring.style.top = `${yPct}%`;
+        fxLayer.append(ring);
+        ring.addEventListener("animationend", () => ring.remove());
+        setTimeout(() => ring.remove(), 1400);
+      }, i * 220);
+    }
+  }
+
+  function flashClass(el, cls, duration) {
+    el.classList.remove(cls);
     void el.offsetWidth;
-    el.classList.add("poke");
-    instructionText.textContent = animal.fact;
-    speak(animal.fact);
+    el.classList.add(cls);
+    setTimeout(() => el.classList.remove(cls), duration);
   }
 
-  function toggleDayNight() {
-    dayNight = dayNight === "day" ? "night" : "day";
+  const ANIMAL_REACTIONS = {
+    yawn: (el, obj) => {
+      flashClass(el, "react-yawn", 900);
+      spawnFx("💤", obj.x, obj.y - 8, "fx-float-up");
+    },
+    water: (el, obj) => {
+      flashClass(el, "react-bounce-strong", 500);
+      spawnFx("💦", obj.x, obj.y, "fx-water", 14);
+      spawnFx("💦", obj.x, obj.y, "fx-water", -14);
+    },
+    leaves: (el, obj) => {
+      flashClass(el, "react-nod", 700);
+      spawnFx("🍃", obj.x, obj.y - 6, "fx-leaf", 18);
+    },
+    jump: (el) => {
+      flashClass(el, "react-jump", 600);
+    },
+    slide: (el) => {
+      flashClass(el, "react-slide", 600);
+    },
+    bounce: (el) => {
+      flashClass(el, "react-bounce-strong", 500);
+    },
+    snap: (el) => {
+      flashClass(el, "react-snap", 500);
+    },
+    roll: (el) => {
+      flashClass(el, "react-roll", 800);
+    }
+  };
+
+  function triggerReaction(obj, item, emojiEl) {
+    if (item.kind === "animal") {
+      const reaction = ANIMAL_REACTIONS[item.reaction] || ANIMAL_REACTIONS.bounce;
+      reaction(emojiEl, obj);
+    } else if (item.kind === "pond") {
+      spawnRipples(obj.x, obj.y);
+    } else if (item.kind === "tree") {
+      flashClass(emojiEl, "react-nod", 700);
+      spawnFx("🍃", obj.x, obj.y - 4, "fx-leaf", 16);
+    } else if (item.kind === "wiggle") {
+      flashClass(emojiEl, "react-wiggle", 500);
+    } else if (item.kind === "balloon") {
+      flashClass(emojiEl, "react-bounce-strong", 500);
+    } else {
+      flashClass(emojiEl, "react-pop", 400);
+    }
+
+    spawnFx("⭐", obj.x, obj.y, "fx-star");
+    playChime();
+  }
+
+  /* ---------- Belohnung ---------- */
+
+  function checkMilestone() {
+    const count = state.objects.length;
+    MILESTONES.forEach(m => {
+      if (count >= m && !state.celebrated.includes(m)) {
+        state.celebrated.push(m);
+        celebrate();
+      }
+    });
     saveState();
-    applySky();
-    renderStage();
   }
 
-  function feedRandomAnimal() {
-    const animalsHere = ANIMALS.filter(a => a.habitat === currentHabitat && placedIds.has(a.id));
-
-    if (animalsHere.length === 0) {
-      instructionText.textContent = "Setze zuerst ein Tier in den Zoo, dann kannst du es füttern!";
-      speak("Setze zuerst ein Tier in den Zoo, dann kannst du es füttern!");
-      return;
+  function celebrate() {
+    const emojis = ["⭐", "🎉", "✨", "💛", "🎈"];
+    for (let i = 0; i < 22; i++) {
+      const span = document.createElement("span");
+      span.className = "confetti-item";
+      span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      span.style.left = `${Math.random() * 100}%`;
+      span.style.animationDuration = `${1.2 + Math.random() * 1}s`;
+      span.style.animationDelay = `${Math.random() * 0.4}s`;
+      celebrateLayer.append(span);
+      span.addEventListener("animationend", () => span.remove());
+      setTimeout(() => span.remove(), 3000);
     }
-
-    const animal = animalsHere[Math.floor(Math.random() * animalsHere.length)];
-    const el = habitatStage.querySelector(`.zoo-animal[aria-label="${animal.name}"]`);
-
-    if (el) {
-      const pos = positionFor(animal.id);
-      const heart = document.createElement("span");
-      heart.className = "heart-burst";
-      heart.textContent = "💚";
-      heart.style.left = pos.left;
-      heart.style.top = pos.top;
-      habitatStage.append(heart);
-      heart.addEventListener("animationend", () => heart.remove());
-      el.classList.remove("poke");
-      void el.offsetWidth;
-      el.classList.add("poke");
-    }
-
-    const text = `${animal.name} freut sich riesig über das Leckerli!`;
-    instructionText.textContent = text;
-    speak(text);
+    playCelebrate();
   }
 
-  function boboCheer(text) {
-    boboImage.src = "../mehr-oder-weniger/bobos/bobo_pose_07.png?v=1";
+  /* ---------- Ambiente: Vögel & Tier-Begegnungen ---------- */
 
-    const rect = boboImage.getBoundingClientRect();
-    const clone = document.createElement("img");
-    clone.src = "../mehr-oder-weniger/bobos/bobo_pose_07.png?v=1";
-    clone.alt = "";
-    clone.className = "bobo-cheer-overlay";
-    clone.style.left = `${rect.left}px`;
-    clone.style.top = `${rect.top}px`;
-    clone.style.width = `${rect.width}px`;
-    clone.style.height = `${rect.height}px`;
-    document.body.append(clone);
-    clone.addEventListener("animationend", () => clone.remove(), { once: true });
-    setTimeout(() => clone.remove(), 1200);
-
+  function scheduleBird() {
+    const delay = 18000 + Math.random() * 20000;
     setTimeout(() => {
-      boboImage.src = "../mehr-oder-weniger/bobos/bobo_pose_01.png?v=1";
-    }, 900);
-
-    instructionText.textContent = text;
-    speak(text);
+      const bird = document.createElement("span");
+      bird.className = "fx-bird";
+      bird.textContent = Math.random() < 0.5 ? "🐦" : "🐤";
+      bird.style.top = `${8 + Math.random() * 18}%`;
+      const duration = 7 + Math.random() * 4;
+      bird.style.animationDuration = `${duration}s`;
+      fxLayer.append(bird);
+      setTimeout(() => bird.remove(), duration * 1000 + 200);
+      scheduleBird();
+    }, delay);
   }
 
-  function boboGreet() {
-    const animalsPlaced = ANIMALS.filter(a => placedIds.has(a.id));
+  function scheduleAnimalMoment() {
+    const delay = 15000 + Math.random() * 18000;
+    setTimeout(() => {
+      const animals = state.objects.filter(o => ITEM_BY_ID[o.itemId].kind === "animal");
+      if (animals.length >= 2) {
+        const a = animals[Math.floor(Math.random() * animals.length)];
+        let b = animals[Math.floor(Math.random() * animals.length)];
+        if (b.uid === a.uid) b = animals[(animals.indexOf(a) + 1) % animals.length];
+        spawnFx("💗", a.x, a.y - 6, "fx-heart");
+        spawnFx("💗", b.x, b.y - 6, "fx-heart");
+      }
+      scheduleAnimalMoment();
+    }, delay);
+  }
 
-    if (animalsPlaced.length > 0 && Math.random() < 0.6) {
-      const animal = animalsPlaced[Math.floor(Math.random() * animalsPlaced.length)];
-      boboCheer(`Schau mal, ${animal.name}! ${animal.fact}`);
+  /* ---------- Sound ---------- */
+
+  let audioCtx = null;
+
+  function ensureAudio() {
+    if (audioCtx) {
+      if (audioCtx.state === "suspended") audioCtx.resume();
       return;
     }
-
-    const greeting = GREETINGS[Math.floor(Math.random() * GREETINGS.length)];
-    boboCheer(greeting);
+    try {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    } catch {
+      audioCtx = null;
+    }
   }
 
-  function speakInstruction() {
-    speak(instructionText.textContent);
+  document.addEventListener("pointerdown", ensureAudio, { once: true });
+
+  function tone(freq, start, duration, type, peakGain) {
+    if (!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    const now = audioCtx.currentTime;
+
+    osc.type = type;
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0, now + start);
+    gain.gain.linearRampToValueAtTime(peakGain, now + start + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + start + duration);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(now + start);
+    osc.stop(now + start + duration + 0.02);
   }
 
-  function resetZoo() {
-    window.speechSynthesis?.cancel();
-    placedIds = new Set();
-    positions.clear();
+  function playPop() {
+    if (!state.settings.sound) return;
+    ensureAudio();
+    tone(520, 0, 0.12, "triangle", 0.18);
+    tone(700, 0.06, 0.12, "triangle", 0.14);
+  }
+
+  function playChime() {
+    if (!state.settings.sound) return;
+    ensureAudio();
+    tone(880, 0, 0.15, "sine", 0.12);
+  }
+
+  function playCelebrate() {
+    if (!state.settings.sound) return;
+    ensureAudio();
+    [660, 880, 990, 1320].forEach((f, i) => tone(f, i * 0.09, 0.18, "triangle", 0.15));
+  }
+
+  const MELODY = [523.25, 587.33, 659.25, 523.25, 659.25, 783.99, 659.25, 587.33];
+  let melodyIdx = 0;
+
+  setInterval(() => {
+    if (!state.settings.music) return;
+    ensureAudio();
+    tone(MELODY[melodyIdx % MELODY.length], 0, 0.5, "sine", 0.045);
+    melodyIdx++;
+  }, 650);
+
+  /* ---------- Elternbereich ---------- */
+
+  let pressTimer = null;
+
+  function openParentPanel() {
+    soundToggle.checked = state.settings.sound;
+    musicToggle.checked = state.settings.music;
+    parentOverlay.hidden = false;
+  }
+
+  parentGear.addEventListener("pointerdown", () => {
+    pressTimer = setTimeout(openParentPanel, 900);
+  });
+
+  ["pointerup", "pointerleave", "pointercancel"].forEach(evt => {
+    parentGear.addEventListener(evt, () => clearTimeout(pressTimer));
+  });
+
+  closeParentBtn.addEventListener("click", () => {
+    parentOverlay.hidden = true;
+  });
+
+  soundToggle.addEventListener("change", () => {
+    state.settings.sound = soundToggle.checked;
     saveState();
-    renderStage();
-    renderShelf();
-    instructionText.textContent = "Tippe ein Tier an und setze es in den Zoo!";
-    speak("Neuer Zoo! Tippe ein Tier an und setze es in den Zoo!");
-  }
+  });
 
-  speechButton.addEventListener("click", speakInstruction);
-  boboButton.addEventListener("click", boboGreet);
-  dayNightButton.addEventListener("click", toggleDayNight);
-  treatButton.addEventListener("click", feedRandomAnimal);
-  resetButton.addEventListener("click", resetZoo);
+  musicToggle.addEventListener("change", () => {
+    state.settings.music = musicToggle.checked;
+    saveState();
+  });
 
-  if ("speechSynthesis" in window) {
-    window.speechSynthesis.onvoiceschanged = () => {};
-  }
+  resetZooBtn.addEventListener("click", () => {
+    state.objects = [];
+    state.celebrated = [];
+    saveState();
+    render();
+  });
 
-  renderTabs();
-  applySky();
-  renderStage();
-  renderShelf();
+  trayClose.addEventListener("click", closeTray);
+
+  /* ---------- Start ---------- */
+
+  renderCategoryBar();
+  render();
+  updateCategoryStates();
+  scheduleBird();
+  scheduleAnimalMoment();
 })();

@@ -71,18 +71,17 @@ Bobo wird Schritt für Schritt als Feuerwehrmann angezogen und rückt danach zu 
 
 ## Bobos Zoo
 
-Bobo hilft dabei, einen eigenen Zoo mit drei Lebensräumen aufzubauen: Savanne, Wasserwelt und Wald.
+Ein freies Zoo-Aufbauspiel für die Kleinsten (ca. 3 Jahre): eine große, bunte Zoo-Wiese, auf der Tiere, Natur, Gehege und Deko frei platziert werden – ganz ohne Lesekenntnisse, Zeitdruck oder Verlieren.
 
 ### So funktioniert es
 
-- Oben mit den drei Symbolen (🌾 🌊 🌳) zwischen den Lebensräumen wechseln.
-- Ein Tier unten im Regal antippen, damit es (mit Ansage von Name und einem kleinen Fakt) in den Zoo einzieht; erneutes Antippen nimmt es wieder heraus.
-- Auf ein Tier im Zoo tippen, wiederholt Bobo Name und Fakt.
-- Der Apfel-Button 🍎 füttert ein zufälliges Tier im aktuellen Lebensraum mit einer kleinen Herzchen-Animation.
-- Der Sonne/Mond-Button ☀️🌙 wechselt zwischen Tag- und Nachtstimmung im Zoo.
-- Auf Bobo tippen, begrüßt er einen oder erzählt einen Fakt über ein bereits eingezogenes Tier.
-- Das Spiel merkt sich den Zoo (eingezogene Tiere, Lebensraum, Tag/Nacht) im Browser; „Zoo neu beginnen“ setzt alles zurück.
-- Es gibt keine Achievements oder Punkte – nur freies, entspanntes Spielen.
+- Unten eine der vier großen Kategorien antippen: 🐘 Tiere, 🌳 Natur, 🏠 Gehege, 🌸 Deko.
+- In der aufklappenden Kartenauswahl ein Objekt antippen, dann irgendwo auf die Wiese tippen – das Objekt erscheint dort mit einer kleinen Bounce-Animation und Sternen. Man kann direkt weitere Exemplare platzieren, ohne neu auszuwählen.
+- Auf ein platziertes Tier tippen, löst eine kleine, für das Tier typische Überraschung aus (der Löwe gähnt, der Elefant spritzt Wasser, der Affe hüpft, der Pinguin rutscht, die Giraffe frisst Blätter, …). Andere Objekte wackeln, ein Teich wirft Wasserringe.
+- Gelegentlich fliegt von selbst ein Vogel über die Wiese oder zwei Tiere „unterhalten" sich mit kleinen Herzchen.
+- Es gibt keine Fehler, kein Verlieren und keine Bestätigungsdialoge – jede Aktion ist positiv (Sterne, Konfetti bei Meilensteinen).
+- Ein unauffälliges Zahnrad oben links öffnet (nur bei längerem Gedrückthalten) den Elternbereich mit Geräusche/Musik an-aus und „Zoo zurücksetzen".
+- Der Zoo wird automatisch im Browser gespeichert und ist nach einem Neuladen unverändert vorhanden.
 
 ## GitHub Pages
 

@@ -3,50 +3,55 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <meta name="theme-color" content="#7fd0f0">
+  <meta name="theme-color" content="#7ec850">
   <title>Bobos Zoo</title>
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
-  <main class="game" aria-labelledby="game-title">
-    <h1 id="game-title" class="sr-only">Bobos Zoo</h1>
-
-    <div class="top-bar">
-      <button class="icon-toggle" id="dayNightButton" type="button" aria-label="Tag oder Nacht umschalten">☀️</button>
-
-      <button class="speech-bubble" id="speechButton" type="button" aria-label="Bobo noch einmal hören">
-        <span class="speaker" aria-hidden="true">🔊</span>
-        <span id="instructionText">Tippe ein Tier an und setze es in den Zoo!</span>
-      </button>
-
-      <button class="icon-toggle" id="treatButton" type="button" aria-label="Ein Tier füttern">🍎</button>
-    </div>
-
-    <button class="bobo-mascot" id="boboButton" type="button" aria-label="Bobo antippen">
-      <img src="../mehr-oder-weniger/bobos/bobo_pose_01.png?v=1" class="bobo-image" id="boboImage" alt="">
-    </button>
-
-    <nav class="habitat-tabs" id="habitatTabs" aria-label="Lebensräume"></nav>
-
-    <section class="habitat-view" id="habitatView" aria-label="Dein Zoo">
-      <div class="sky-decor" id="skyDecor" aria-hidden="true">
-        <span class="sky-body" id="skyBody">☀️</span>
-        <span class="star star-1">✨</span>
-        <span class="star star-2">✨</span>
-        <span class="star star-3">✨</span>
+  <main class="zoo" aria-label="Bobos Zoo">
+    <section class="meadow" id="meadow" aria-label="Deine Zoo-Wiese">
+      <div class="sky" aria-hidden="true">
+        <span class="sun">☀️</span>
+        <span class="cloud cloud-1">☁️</span>
+        <span class="cloud cloud-2">☁️</span>
       </div>
-      <div class="habitat-stage" id="habitatStage"></div>
+      <div class="objects-layer" id="objectsLayer"></div>
+      <div class="fx-layer" id="fxLayer" aria-hidden="true"></div>
     </section>
 
-    <div class="animal-shelf" id="animalShelf" aria-label="Tierauswahl"></div>
+    <div class="celebrate-layer" id="celebrateLayer" aria-hidden="true"></div>
 
-    <div class="parent-panel">
-      <button id="resetButton" class="panel-link" type="button">🔄 Zoo neu beginnen</button>
+    <div class="tray" id="tray" hidden>
+      <button class="tray-close" id="trayClose" type="button" aria-label="Auswahl schließen">✕</button>
+      <div class="tray-cards" id="trayCards"></div>
     </div>
+
+    <nav class="category-bar" id="categoryBar" aria-label="Auswahl"></nav>
+
+    <button class="parent-gear" id="parentGear" type="button" aria-label="Elternbereich (gedrückt halten)">⚙️</button>
 
     <a href="../index.html" class="home-link">← Zur Spieleübersicht</a>
   </main>
 
-  <script src="script.js?v=1"></script>
+  <div class="parent-overlay" id="parentOverlay" hidden>
+    <div class="parent-panel">
+      <h2>Für Eltern</h2>
+
+      <label class="switch-row">
+        <span>🔊 Geräusche</span>
+        <input type="checkbox" id="soundToggle">
+      </label>
+
+      <label class="switch-row">
+        <span>🎵 Musik</span>
+        <input type="checkbox" id="musicToggle">
+      </label>
+
+      <button id="resetZooBtn" class="danger-btn" type="button">Zoo zurücksetzen</button>
+      <button id="closeParentBtn" class="close-btn" type="button">Schließen</button>
+    </div>
+  </div>
+
+  <script src="script.js?v=2"></script>
 </body>
 </html>

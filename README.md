@@ -12,6 +12,7 @@ Jedes Spiel liegt in seinem eigenen Unterordner. Aktuell verfügbar:
 - **Mehr oder weniger?** (`mehr-oder-weniger/`)
 - **Bobo Feuerwehr** (`feuerwehr/`)
 - **Bobos Zoo** (`zoo/`) – weitere Spiele folgen.
+- **Bobos Zoo 2.0** (`zoo2/`) – Neuentwicklung mit Phaser 3 + TypeScript + Vite, siehe [`zoo2/README.md`](zoo2/README.md). Eigenständiges npm-Projekt, aktuell noch nicht in der Spieleübersicht verlinkt (siehe unten).
 
 ## Farbenspiel
 
@@ -82,6 +83,12 @@ Ein freies Zoo-Aufbauspiel für die Kleinsten (ca. 3 Jahre): eine große, bunte 
 - Es gibt keine Fehler, kein Verlieren und keine Bestätigungsdialoge – jede Aktion ist positiv (Sterne, Konfetti bei Meilensteinen).
 - Ein unauffälliges Zahnrad oben links öffnet (nur bei längerem Gedrückthalten) den Elternbereich mit Geräusche/Musik an-aus und „Zoo zurücksetzen".
 - Der Zoo wird automatisch im Browser gespeichert und ist nach einem Neuladen unverändert vorhanden.
+
+## Bobos Zoo 2.0
+
+Neuentwicklung des Zoos mit Phaser 3 + TypeScript + Vite (`zoo2/`): eine 3000×2000 px große Zoo-Welt mit beweglicher Kamera, 8 Tierarten mit eigenständigem Idle-/Lauf-/Tap-Verhalten, Bäumen/Teichen/Deko und Y-basierter Tiefensortierung. Bedienung wie beim ursprünglichen Zoo: unten auswählen, auf die Wiese tippen. Der Spielstand wird ebenfalls per `localStorage` gesichert.
+
+Im Gegensatz zu den anderen Spielen ist das ein eigenständiges npm-Projekt (siehe [`zoo2/README.md`](zoo2/README.md) für `npm install` / `npm run dev` / `npm run build`). Es ist aktuell **noch nicht** auf der Startseite verlinkt und wird nicht automatisch über GitHub Pages ausgeliefert, da dafür erst `npm run build` ausgeführt und der erzeugte `dist/`-Ordner ins Repository übernommen werden muss (kein CI-Build in diesem Repo vorhanden).
 
 ## GitHub Pages
 

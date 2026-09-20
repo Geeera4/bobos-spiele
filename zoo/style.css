@@ -462,6 +462,10 @@ button:focus-visible {
   padding: 20px;
 }
 
+.parent-overlay[hidden] {
+  display: none;
+}
+
 .parent-panel {
   width: min(360px, 100%);
   background: #fff;
